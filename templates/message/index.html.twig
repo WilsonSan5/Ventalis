@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MessageController!{% endblock %}
+
+{% block body %}
+
+<table class="index-table">
+
+		<thead>
+			<tr>
+                <th>#</th>
+				<th>objet</th>
+				<th>Nom</th>
+				<th>Prenom</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for messagerie in messageries|reverse %}
+				<tr>
+                    <td>{{ messagerie.id }} </td>
+					<td><a href='{{path('app_message_show',{id : messagerie.id})}}'>{{ messagerie.objet }}</a></td>
+					<td>{{ messagerie.user[1].nom }} </td>
+					<td> {{ messagerie.user[1].prenom }} </td> 
+					<td>
+						<a href="{{ path('app_user_show', {'id': messagerie.id}) }}">Supprimer</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="7">Aucune messagerie</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block body %}
+<style> 
+.user-message {
+
+}
+</style>
+
+    <h1> {{messagerie.objet}}</h1>
+
+    <form action="{{path('app_message_send',{id: messagerie.id})}}" method="POST">
+        <input type="text" name="message"/>
+        <button type='submit'>Envoyer</button>
+    </form>
+
+    {% for message in messages|reverse %}
+        <p class=' {% if app.user.id == message.author.id %} user-message {% endif %}'> 
+        
+        {% if app.user.id == message.author.id %}
+            Vous
+        {% else %}
+        {{message.author.nom}} {{message.author.prenom}}
+        {% endif %}
+         : {{message.contenu}} </p>
+    {% endfor %}
+
+{% endblock %}
