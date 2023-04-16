@@ -4,11 +4,19 @@
 
 {% block body %}
 
+    <style>
+        img{
+            width:640px;
+            height: 400px;
+            object-fit : cover;
+        }
+    </style>
+
     <h1>{{produit.title}}</h1>
-    <h2> {{produit.introduction}}</h2>
+    <h2> {{produit.introduction}}</h2>   
+    <div><img src='{{produit.image}}' alt=' image de {{produit.title}}'> </div>
     <p>{{produit.description}}</p>
     <p> <b>Au programme :</b> <br> {{produit.descriptionProgramme}} </p>
-
 
     <table class="table">
         <tbody>
@@ -26,6 +34,8 @@
             </tr>
         </tbody>
     </table>
+
+ 
 
     {% if produit.planning|length > 0 %}
     <form method="GET" action="{{ path('app_programmes_payment', {'id': produit.id}) }}">

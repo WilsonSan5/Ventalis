@@ -1,36 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MessageController!{% endblock %}
+{% block title %}Hello MessageController!
+{% endblock %}
 
 {% block body %}
+	<style>
+		ul {
+			list-style-type: none;
+		}
+	</style>
 
-<table class="index-table">
+	<div class='row'>
+		<div class='messageries col-4'>
+			<p>
+				<b>Bonjour, je suis
+					{{app.user.conseiller.prenom}}
+					votre conseiller.
+				</b>
+				<br>
+				Comment puis-je vous aider ?</p>
 
-		<thead>
-			<tr>
-                <th>#</th>
-				<th>objet</th>
-				<th>Nom</th>
-				<th>Prenom</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for messagerie in messageries|reverse %}
-				<tr>
-                    <td>{{ messagerie.id }} </td>
-					<td><a href='{{path('app_message_show',{id : messagerie.id})}}'>{{ messagerie.objet }}</a></td>
-					<td>{{ messagerie.user[1].nom }} </td>
-					<td> {{ messagerie.user[1].prenom }} </td> 
-					<td>
-						<a href="{{ path('app_user_show', {'id': messagerie.id}) }}">Supprimer</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="7">Aucune messagerie</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+
+			<button>
+				En cours
+			</button>
+			<button>
+				Résolu
+			</button>
+			<button>
+				Tout
+			</button>
+
+			<ul>
+				{% for messagerie in messageries|reverse %}
+					<li>
+						<a href='{{path('app_message_show',{id : messagerie.id})}}'>
+							<p>{{ messagerie.id }}-
+								<b>{{ messagerie.objet }}</b>
+							</p>
+						</a>
+					</li>
+					<p>
+						{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+						{# pour afficher le dernier message de la conversation #}
+					</p>
+				{% else %}
+					<p colspan="7">Aucune messagerie</p>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class='col-8'>
+			<button>
+				Annuler
+			</button>
+			<h2>Créer une nouvelle requête</h2>
+			<form action="{{path('app_message_new')}}" method="POST">
+				<input type='text' name='objet' placeholder='Objet' required class='col-12'>
+				<input type="text" name="message" placeholder='Rédiger un message' required class='col-12'>
+				<button type='submit' class='mx-auto'>Envoyer</button>
+			</form>
+		</div>
+	</div>
+
 {% endblock %}

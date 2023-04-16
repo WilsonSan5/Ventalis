@@ -1,30 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Messages{% endblock %}
+{% block title %}Messages
+{% endblock %}
 
 {% block body %}
-<style> 
-.user-message {
+	<style>
+		.bubble {
+			border-radius: 12px;
+			margin: 0.2em 0;
+			padding: 0.2em 1em;
+			width: max-content;
+			background-color: grey;
+		}
+		.user-message {
+			color: white;
 
-}
-</style>
+		}
+		.user-bubble {
+			margin-left: auto;
+			background-color: blue;
+		}
+		ul {
+			list-style-type: none;
+		}
+		input,
+		button {
+			border-radius: 15px;
+		}
+		.messageries ul {
+			background-color: grey;
+			border-radius: 15px;
+		}
+	</style>
+	<div class='row'>
+		<div class='messageries col-4'>
+			<p>
+				<b>Bonjour, je suis
+					{{app.user.conseiller.prenom}}
+					votre conseiller.
+				</b>
+				<br>
+				Comment puis-je vous aider ?</p>
+			<button>
+				En cours
+			</button>
+			<button>
+				Résolu
+			</button>
+			<button>
+				Tout
+			</button>
+			<ul>
+				{% for messagerie in allMessageries|reverse %}
+					<li>
+						<a href='{{path('app_message_show',{id : messagerie.id})}}'>
+							<p>{{ messagerie.id }}
+								-
+								<b>{{ messagerie.objet }}</b>
+							</p>
+						</a>
+						<p>
+							{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+							{# pour afficher le dernier message de la conversation #}
+						</p>
+					</li>
+				{% else %}
+					<p colspan="7">Aucune messagerie</p>
+				{% endfor %}
+			</ul>
+		</div>
 
-    <h1> {{messagerie.objet}}</h1>
+		<div class='col-8'>
+			<a href='{{path('app_message')}}'>
+				<button>Nouveau ticket</button>
+			</a>
+			<h2>{{currentMessageries.objet}}</h2>
+			<p>{{messages[0].contenu}}</p>
+			<hr>
 
-    <form action="{{path('app_message_send',{id: messagerie.id})}}" method="POST">
-        <input type="text" name="message"/>
-        <button type='submit'>Envoyer</button>
-    </form>
-
-    {% for message in messages|reverse %}
-        <p class=' {% if app.user.id == message.author.id %} user-message {% endif %}'> 
-        
-        {% if app.user.id == message.author.id %}
-            Vous
-        {% else %}
-        {{message.author.nom}} {{message.author.prenom}}
-        {% endif %}
-         : {{message.contenu}} </p>
-    {% endfor %}
+			{% for message in messages|slice(1) %}
+				<div
+					class='bubble {% if app.user.id == message.author.id %} user-bubble {% endif %}'>
+					{# Si le l'autheur.id est le même que le app.user.id > alors je lui donne la classe .. #}
+					<p class=' {% if app.user.id == message.author.id %} user-message {% endif %}'>
+						{{message.contenu}}
+					</p>
+				</div>
+			{% endfor %}
+			<form action="{{path('app_message_send',{id: currentMessageries.id})}}" method="POST">
+				<div class='row'>
+					<input type="text" name="message" required class='col-10'/>
+					<button type='submit' class='col-2'>Envoyer</button>
+				</div>
+			</form>
+		</div>
+	</div>
 
 {% endblock %}
