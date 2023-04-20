@@ -1,17 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MessageController!
+{% block title %}Messagerie
 {% endblock %}
 
 {% block body %}
-	<style>
-		ul {
-			list-style-type: none;
-		}
-	</style>
+	<link rel='stylesheet' type='text/css' href="/css/messagerie.css">
+	<link rel='stylesheet' type='text/css' href="/css/messagerie-new.css">
 
 	<div class='row'>
 		<div class='messageries col-4'>
+			{% if app.user.conseiller %}
 			<p>
 				<b>Bonjour, je suis
 					{{app.user.conseiller.prenom}}
@@ -19,47 +17,87 @@
 				</b>
 				<br>
 				Comment puis-je vous aider ?</p>
-
-
-			<button>
-				En cours
-			</button>
-			<button>
-				Résolu
-			</button>
-			<button>
-				Tout
-			</button>
+			
+			{% endif %}
+	
+			<form action="{{path('app_message')}}" method='GET'>
+				<button name='filter' type='submit' value='ongoing'>
+					En cours
+				</button>
+				<button name='filter' type='submit' value='done'>
+					Résolu
+				</button>
+				<button name='filter' type='submit' value='all'>
+					Tout
+				</button>
+			</form>
 
 			<ul>
-				{% for messagerie in messageries|reverse %}
-					<li>
-						<a href='{{path('app_message_show',{id : messagerie.id})}}'>
-							<p>{{ messagerie.id }}-
-								<b>{{ messagerie.objet }}</b>
+				{% if filter == 'all' or null %}
+					{% for messagerie in messageries|reverse %}
+						<li>
+							<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
+								<p>{{ messagerie.id }}-
+									<b>{{ messagerie.objet }}</b>
+								</p>
+							</a>
+							<p>
+								{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+								{# pour afficher le dernier message de la conversation #}
 							</p>
-						</a>
-					</li>
-					<p>
-						{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
-						{# pour afficher le dernier message de la conversation #}
-					</p>
+						</li>
+					{% else %}
+						<p colspan="7">Aucune messagerie</p>
+					{% endfor %}
+				{% elseif filter == 'ongoing' %}
+					{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == null or filter) %}
+						<li>
+							<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
+								<p>{{ messagerie.id }}-
+									<b>{{ messagerie.objet }}</b>
+								</p>
+							</a>
+							<p>
+								{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+								{# pour afficher le dernier message de la conversation #}
+							</p>
+						</li>
+					{% else %}
+						<p colspan="7">Aucune messagerie</p>
+					{% endfor %}
 				{% else %}
-					<p colspan="7">Aucune messagerie</p>
-				{% endfor %}
+					{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == filter) %}
+						<li>
+							<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
+								<p>{{ messagerie.id }}-
+									<b>{{ messagerie.objet }}</b>
+								</p>
+							</a>
+							<p>
+								{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+								{# pour afficher le dernier message de la conversation #}
+							</p>
+						</li>
+					{% else %}
+						<p colspan="7">Aucune messagerie</p>
+					{% endfor %}
+
+				{% endif %}
 			</ul>
 		</div>
 
-		<div class='col-8'>
-			<button>
+		<div class='col-8 '>
+			<button class='big-button'>
 				Annuler
 			</button>
-			<h2>Créer une nouvelle requête</h2>
-			<form action="{{path('app_message_new')}}" method="POST">
-				<input type='text' name='objet' placeholder='Objet' required class='col-12'>
-				<input type="text" name="message" placeholder='Rédiger un message' required class='col-12'>
-				<button type='submit' class='mx-auto'>Envoyer</button>
-			</form>
+			<div class='view-container'>
+				<form action="{{path('app_message_new')}}" method="POST" id='new-request-form'>
+					<h2 class='text-center mb-3'>Créer une nouvelle requête</h2>
+					<input type='text' name='objet' placeholder='Objet' required class='col-12' id='objet-input'>
+					<textarea type="text" name="message" placeholder='Rédiger un message' required class='col-12' id='message-input'></textarea>
+					<button type='submit' id='submit-button'>Envoyer</button>
+				</form>
+			</div>
 		</div>
 	</div>
 

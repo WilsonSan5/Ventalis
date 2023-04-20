@@ -24,6 +24,9 @@ class Messagerie
     #[ORM\OneToMany(mappedBy: 'Messagerie', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $statut = null;
+
     public function __construct()
     {
         $this->User = new ArrayCollection();
@@ -97,6 +100,18 @@ class Messagerie
                 $message->setMessagerie(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

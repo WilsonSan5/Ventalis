@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Achat;
+use App\Repository\AchatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,26 +24,29 @@ class CompteController extends AbstractController
     #[Route('/', name: 'app_compte')]
     public function index(): Response
     {
+
         return $this->render('compte/index.html.twig', [
             'user' => $this->getUser()
         ]);
     }
 
     #[Route('/achat', name: 'app_compte_achat')]
-    public function achat(UserInterface $userInterface): Response
+    public function achat(): Response
     {   
         return $this->render('compte/achat.html.twig', [
             'user' => $this->getUser(),
-        
         ]);
     }
 
-    #[Route('/utilisateur', name: 'app_compte_utilisateur')]
-    public function show(): Response
+    #[Route('/panier', name: 'app_compte_panier')]
+    public function panier(AchatRepository $achatRepository): Response
     {
-        return $this->render('compte/show.html.twig', [
-            'controller_name' => 'CompteController',
-            'user' => $this->getUser()
+
+        $produitsInCart = $achatRepository->findBy(['user' => $this->getUser(), 'status' => 'inCart']);
+
+        return $this->render('compte/panier.html.twig', [
+            'user' => $this->getUser(),
+            'produitsInCart' => $produitsInCart
         ]);
     }
 
@@ -66,7 +70,4 @@ class CompteController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    
-
 }

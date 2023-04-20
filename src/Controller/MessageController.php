@@ -18,11 +18,23 @@ class MessageController extends AbstractController
     public function index(MessageRepository $messageRepository, MessagerieRepository $messagerieRepository): Response
     {
         $user = $this->getUser();
+        if($this->getUser()->getRoles()[0] == "ROLE_EMP"){
+
+          return  $this->redirectToRoute('app_home');
+        }
+
         $messageries = $user->getMessageries(); //tableau d'objet messagerie
+
+        if(isset($_GET['filter'])){
+            $filter = $_GET['filter'];
+        } else
+            $filter = 'all';
+
 
         return $this->render('message/index.html.twig', [
             'messageries' => $messageries,
-            'user' => $user
+            'user' => $user,
+            'filter' => $filter
         ]);
     }
 
@@ -66,11 +78,17 @@ class MessageController extends AbstractController
         $messageries = $user->getMessageries();
         $messages = $messagerie->getMessages();
 
+        if (isset($_GET['filter'])) {
+            $filter = $_GET['filter'];
+        } else
+            $filter = 'all';
+
         return $this->render('message/show.html.twig', [
-            'allMessageries' => $messageries,
+            'messageries' => $messageries,
             'currentMessageries' => $messagerie,
             'messages' => $messages,
-            'user' => $user
+            'user' => $user,
+            'filter' => $filter
         ]);
     }
 

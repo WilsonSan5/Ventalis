@@ -1,57 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}Produit
+{% endblock %}
 
 {% block body %}
 
-    <style>
-        img{
-            width:640px;
-            height: 400px;
-            object-fit : cover;
-        }
-    </style>
-
-    <h1>{{produit.title}}</h1>
-    <h2> {{produit.introduction}}</h2>   
-    <div><img src='{{produit.image}}' alt=' image de {{produit.title}}'> </div>
-    <p>{{produit.description}}</p>
-    <p> <b>Au programme :</b> <br> {{produit.descriptionProgramme}} </p>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Nombre de jours</th>
-                <td>{{ produit.nbrJour }}</td>
-            </tr>
-            <tr>
-                <th>Nombre de nuits</th>
-                <td>{{ produit.nbrNuit }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td> <b>{{ produit.prixDefaut }} €</b></td>
-            </tr>
-        </tbody>
-    </table>
-
- 
-
-    {% if produit.planning|length > 0 %}
-    <form method="GET" action="{{ path('app_programmes_payment', {'id': produit.id}) }}">
-        <select name="planning">
-        {% for planning in produit.planning %}
-            <option value="{{planning.id}}">{{planning.DateDepart|date("d/m/Y") }} - {{planning.DateFin|date("d/m/Y")}}</option>
-        {% endfor %}
-        </select>
-
-        <input type="submit" value="Ajouter au panier">
-    </form>
-    {% else %}
-    
-    <p class ='alert'>Aucun planning disponible</p>
-    {% endif %}
+	<style>
+		img {
+			width: 640px;
+			height: 400px;
+			object-fit: cover;
+		}
+	</style>
+	<p>
+		{% for categorie in produit.categorie %}
+			{{categorie}}
+		{% endfor %}
+	</p>
 
 
-    <a href="{{ path('app_programmes') }}">Retour</a>
+	<h1>{{produit.title}}</h1>
+	<h2>
+		{{produit.introduction}}</h2>
+	<div><img src='{{produit.image}}' alt=' image de {{produit.title}}'>
+	</div>
+	<p>{{produit.description}}</p>
+	<p>
+		<b>Au programme :</b>
+		<br>
+		{{produit.descriptionProgramme}}
+	</p>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Nombre de jours</th>
+				<td>{{ produit.nbrJour }}</td>
+			</tr>
+			<tr>
+				<th>Nombre de nuits</th>
+				<td>{{ produit.nbrNuit }}</td>
+			</tr>
+			<tr>
+				<th>Prix</th>
+				<td>
+					<b>{{ produit.prixDefaut }}
+						€</b>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	{% if produit.planning|length > 0 %}
+		<form method="GET" action="{{ path('app_programmes_addCart', {'id': produit.id}) }}">
+			<select name="planning">
+				{% for planning in produit.planning %}
+					<option value="{{planning.id}}">{{planning.DateDepart|date("d/m/Y") }}
+						-
+						{{planning.DateFin|date("d/m/Y")}}</option>
+				{% endfor %}
+			</select>
+			<select name="quantite">
+				<option value=1>1</option>
+				<option value=2>2</option>
+				<option value=3>3</option>
+				<option value=4>4</option>
+				<option value=5>5</option>
+				<option value=6>6</option>
+			</select>
+
+			<input type="submit" value="Ajouter au panier">
+		</form>
+	{% else %}
+
+		<p class='alert'>Aucun planning disponible</p>
+	{% endif %}
+
+	<a href="{{ path('app_programmes') }}">Retour</a>
 {% endblock %}

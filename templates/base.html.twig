@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -36,55 +36,45 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-						{% if is_granted('ROLE_ADMIN') %}
+						{% if is_granted('ROLE_USER') %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_planning_index')}}">Plannings</a>
+								<a class="nav-link" href="{{path('app_programmes')}}">Tous les programmes</a>
 							</li>
+							<a class="nav-link" href="{{path('app_compte')}}">Mon espace</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_message')}}">Assistance</a>
+						</li>
+						{% if is_granted('ROLE_EMP') %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_produit_index')}}">Produits</a>
+								<a class='nav-link' href='#'>
+									Intranet
+								</a>
 							</li>
+						{% elseif is_granted('ROLE_ADMIN') %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_user_index')}}">Utilisateurs</a>
+								<a class='nav-link' href='#'>
+									Administration
+								</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_achat_index')}}"> Achats</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_compte')}}">Mon espace</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
-
-							{% elseif is_granted('ROLE_USER') %}
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_programmes')}}">Tous les programmes</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_compte')}}">Mon compte</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
-								</li>
-							{% else %}
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_programmes')}}">Tous les programmes</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path('app_register')}}">Inscription</a>
-								</li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-			</nav>
-
-			<div class='container'> 
-			{% block body %}{% endblock %}
-				</div>
-			</body>
-		</body>
-	</html>
-</body></html>
+						{% endif %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_logout')}}">Déconnexion</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_programmes')}}">Tous les programmes</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_register')}}">Inscription</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</body>
+</html></nav><div class='container'> {% block body %}{% endblock %}
+</div></body></html></body></html></body></html>

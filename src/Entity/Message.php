@@ -26,6 +26,9 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?User $author = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_read = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Message
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->is_read;
+    }
+
+    public function setIsRead(?bool $is_read): self
+    {
+        $this->is_read = $is_read;
 
         return $this;
     }

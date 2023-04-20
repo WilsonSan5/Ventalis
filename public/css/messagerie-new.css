@@ -1,0 +1,30 @@
+
+#new-request-form {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(224, 224, 224, 0);
+    height: 100%;
+    gap: 1.5em;
+}
+
+#objet-input {
+    padding-bottom: 1em;
+    border-radius: 0px;
+    border: 0px;
+    border-bottom: 1px solid black;
+}
+
+#message-input {
+    padding: 1em;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 2px solid grey;
+    margin-bottom: auto !important;
+    height: 70%;
+    border: 1px solid grey;
+}
+#submit-button{
+    justify-self: end;
+    align-self: flex-end;
+}

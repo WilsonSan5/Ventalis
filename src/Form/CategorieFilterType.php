@@ -2,27 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Categorie;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CompteEditType extends AbstractType
+class CategorieFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email') 
-            ->add('password')
-            ->add('nom')
-            ->add('prenom')
+            ->add('categorie', EntityType::class,[
+                'class' => Categorie::class,
+                'label' => 'Filtrer par catégorie'
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            // Configure your form options here
         ]);
     }
 }

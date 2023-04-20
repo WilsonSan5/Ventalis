@@ -13,7 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[Route('/achat')]
 
-#[IsGranted('ROLE_ADMIN')]
 class AchatController extends AbstractController
 {
     #[Route('/', name: 'app_achat_index', methods: ['GET'])]
@@ -21,26 +20,6 @@ class AchatController extends AbstractController
     {
         return $this->render('achat/index.html.twig', [
             'achats' => $achatRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_achat_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AchatRepository $achatRepository): Response
-    {
-        $achat = new Achat();
-        $form = $this->createForm(AchatType::class, $achat);
-        $form->handleRequest($request);
-        
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $achatRepository->save($achat, true);
-
-            return $this->redirectToRoute('app_achat_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('achat/new.html.twig', [
-            'achat' => $achat,
-            'form' => $form,
         ]);
     }
 
@@ -52,31 +31,13 @@ class AchatController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_achat_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Achat $achat, AchatRepository $achatRepository): Response
-    {
-        $form = $this->createForm(AchatType::class, $achat);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $achatRepository->save($achat, true);
-
-            return $this->redirectToRoute('app_achat_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('achat/edit.html.twig', [
-            'achat' => $achat,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_achat_delete', methods: ['POST'])]
     public function delete(Request $request, Achat $achat, AchatRepository $achatRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$achat->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $achat->getId(), $request->request->get('_token'))) {
             $achatRepository->remove($achat, true);
         }
 
-        return $this->redirectToRoute('app_achat_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_compte_panier', [], Response::HTTP_SEE_OTHER);
     }
 }

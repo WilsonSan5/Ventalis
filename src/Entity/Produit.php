@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
@@ -275,4 +276,14 @@ class Produit
 
         return $this;
     }
+    public function findByCategorie(Categorie $categorie): array
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.categories', 'c')
+            ->where('c = :category')
+            ->setParameter('category', $categorie)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

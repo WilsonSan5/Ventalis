@@ -6,17 +6,16 @@
 
 {% block body %}
 
-<style>
-	#id_produit, #id_planning{
-		display:none;
-	}
-
-</style>
-
-
+	<style>
+		#id_produit,
+		#id_planning {
+			display: none;
+		}
+	</style>
 	<h1>{{produit.title}}</h1>
 	<h2>
 		{{produit.introduction}}</h2>
+
 	<table class="table">
 		<tbody>
 			<tr>
@@ -42,7 +41,18 @@
 			<tr>
 				<th>Prix</th>
 				<td>
-					<b>	<span id='prix'>{{ planning.prix }}</span>€</b>
+					<b>{{ planning.prix }}€</b>
+				</td>
+			</tr>
+			<tr>
+				<th>Quantité</th>
+				<td>{{ quantite}}</td>
+			</tr>
+			<tr>
+				<th>Prix total</th>
+				<td>
+					<b>
+						<span id='prix'>{{ planning.prix * quantite }}</span>€</b>
 				</td>
 			</tr>
 		</tbody>
@@ -71,5 +81,4 @@
 <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 <script src='/stripe/checkout.js'></script>
 
-<a href="{{ path('app_programmes') }}">Retour</a>
-{% endblock %}
+<a href="{{ path('app_programmes') }}">Retour</a>{% endblock %}

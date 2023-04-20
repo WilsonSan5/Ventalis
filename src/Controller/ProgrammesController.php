@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Form\CategorieFilterType;
 use App\Repository\ProduitRepository;
 use App\Repository\PlanningRepository;
 
@@ -27,37 +28,74 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ProgrammesController extends AbstractController
 {
-    #[Route('/programmes', name: 'app_programmes')]
-    public function index(ProduitRepository $produitRepository): Response
+    #[Route('/programmes', name: 'app_programmes', methods: ['GET', 'POST'])]
+    public function index(ProduitRepository $produitRepository, Request $request): Response
     {
+
+        $form = $this->createForm(CategorieFilterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData()['categorie']; // champs categorie du form
+            $produits = $produitRepository->findByCategorie($filter); // méthode crée dans le repository par chatgpt...
+        } else
+            $produits = $produitRepository->findAll();
+
         return $this->render('programmes/index.html.twig', [
-            'controller_name' => 'Programmes ',
-            'produits' => $produitRepository->findAll() // la méthode findAll() transforme le repository en tableau.
+            'produits' => $produits,
+            // la méthode findAll() renvoie le repository en tableau.
+            'form' => $form,
         ]);
     }
 
-    
-  
     #[Route('/programmes/{id}', name: 'app_programmes_show', methods: ['GET'])]
     public function show(Produit $produit, Request $request, ProduitRepository $produitRepository): Response
     {
 
         return $this->render('programmes/show.html.twig', [
             'produit' => $produit,
+        ]);
+    }
 
+    #[Route('/programmes/{id}/addToCart', name: 'app_programmes_addCart', methods: ['GET'])]
+    public function addToCart(Produit $produit, PlanningRepository $planningRepository, ProduitRepository $produitRepository, AchatRepository $achatRepository): Response
+    {
+        $id_planning = $_GET['planning'];
+        $quantite = $_GET['quantite'];
+        $planning = $planningRepository->findOneBy(['id' => $id_planning]);
+
+        $date = new DateTime();
+        $date->format('d/m/Y H:m');
+
+        $achat = new Achat;
+
+        $achat->setUser($this->getUser());
+        $achat->setProduit($produit);
+        $achat->setPlanning($planning);
+        $achat->setQuantite($quantite);
+        $achat->setPrix($planning->getPrix()* $quantite);
+
+        $achat->setDateAchat($date);
+        $achat->setStatus('inCart');
+
+        $achatRepository->save($achat, true);
+
+        return $this->redirectToRoute('app_compte_panier', [
+            'user' => $this->getUser(),
         ]);
     }
 
     #[Route('/programmes/{id}/payment', name: 'app_programmes_payment', methods: ['GET'])]
-    public function buy(Produit $produit, UserInterface $userinterface, PlanningRepository $planningRepository): Response
-    {   
+    public function buy(Produit $produit, PlanningRepository $planningRepository): Response
+    {
         $id_planning = $_GET['planning'];
-        $planning = $planningRepository->findOneBy(['id'=>$id_planning]);
+        $quantite = $_GET['quantite'];
+        $planning = $planningRepository->findOneBy(['id' => $id_planning]);
 
-        return $this->render('programmes/payment.html.twig', [   
+        return $this->render('programmes/payment.html.twig', [
             'produit' => $produit,
             'planning' => $planning,
-          
+            'quantite' => $quantite
         ]);
     }
 
@@ -115,7 +153,7 @@ class ProgrammesController extends AbstractController
         $id_produit = $jsonData[0]->id_produit;
         $id_planning = $jsonData[0]->id_planning;
 
-        $produit =  $produitRepository->findOneBy(['id'=> $id_produit]);
+        $produit = $produitRepository->findOneBy(['id' => $id_produit]);
         $planning = $planningRepository->findOneBy(['id' => $id_planning]);
         $prix = $planning->getPrix();
         $achat = new Achat;
@@ -133,10 +171,10 @@ class ProgrammesController extends AbstractController
 
         return $this->render('programmes/confirmation.html.twig', [
             // 'produit' => $produit,
-            'donnees'=> $jsonData,
+            'donnees' => $jsonData,
             'produit' => $produit,
             'planning' => $planning,
-            
+
         ]);
     }
 }
