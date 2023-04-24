@@ -4,45 +4,50 @@
 {% endblock %}
 
 {% block body %}
-
 	<h1>Mon panier</h1>
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
 				<th>Voyage</th>
 				<th>Planning</th>
 				<th>Quantité</th>
 				<th>Prix</th>
+				<th>Prix total</th>
 				<th>actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for achat in produitsInCart %}
 				<tr>
-					<td>{{ achat.id }}</td>
 					<td>{{ achat.produit }}</td>
 					<td>Du
 						{{ achat.planning.DateDepart | date("d/m/Y") }}
 						- au
 						{{achat.planning.DateFin | date("d/m/Y")}}</td>
 					<td>{{achat.quantite}}</td>
-					<td>{{ achat.prix }} €</td>
+					<td>{{ achat.prix|number_format(0,',', ' ') }}
+						€</td>
+
+					<td>{{ achat.prix * achat.quantite }}€
+					</td>
 					<td>
 						{{ include('achat/_delete_form.html.twig') }}
 					</td>
 				</tr>
 			{% else %}
 				<tr>
-					<td colspan="3">Aucun achat fait</td>
+					<td colspan="3">Panier vide</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 
-    <button>Passer la commande</button>
+	<h2>Total panier :
+		{{totalPanier|number_format(0,',', ' ')}}€</h2>
+	<button type='button' onclick="location.href='{{path('app_programmes')}}';">Continuer mes achats</button>
 
-
-	<a href="{{ path('app_compte') }}">Retour</a>
+	{% if produitsInCart|length > 0 %}
+		<button type='button' onclick="location.href='{{path('app_panier_payment')}}';">Passer la commande</button>
+	{% endif %}
 
 {% endblock %}

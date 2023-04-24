@@ -1,5 +1,9 @@
-<h1> Confirmation ✅</h1>
-<h2> {{app.user.nom}} {{app.user.prenom}}</h2>
-<p> {{produit.title}} a bien été réservé  du {{planning.DateDepart | date('d/m/Y')}} au {{planning.DateFin | date('d/m/Y')}}.
-
-<a href='{{path('app_compte_achat')}}'>Retour</a>
+<h1>
+	Confirmation ✅</h1>
+<h2>
+	{{app.user.nom}}
+	{{app.user.prenom}}</h2>
+<p>
+	Votre commande a bien été confirmée
+</p>
+<a href='{{path('app_compte_achat')}}'>Voir mes achats</a>

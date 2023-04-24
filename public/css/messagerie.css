@@ -32,25 +32,28 @@ button {
 }
 
 .messageries li {
-    background-color: rgb(130, 238, 177);
+    background-color: rgb(130, 197, 238);
     border-radius: 10px;
     box-shadow: 0px 0px 5px;
 }
 
 /*  Messages côté droit */
 
-.scroll-box{
+.scroll-box {
     height: 85%;
     overflow-y: hidden;
 }
-.scroll-box:hover{
+
+.scroll-box:hover {
     overflow-y: scroll;
 }
+
 .scroll-box::-webkit-scrollbar {
     width: 5px;
     background-color: #45454513;
     border-radius: 5px;
 }
+
 .scroll-box::-webkit-scrollbar-thumb {
     background-color: #35353562;
     border-radius: 5px;
@@ -63,7 +66,7 @@ hr {
 .view-container {
     display: flex;
     flex-direction: column;
-    background-color: violet;
+    background-color: rgb(120, 147, 255);
     border-radius: 10px;
     padding: 3em 3em;
     height: 750px;

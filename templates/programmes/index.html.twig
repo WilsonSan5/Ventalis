@@ -11,8 +11,11 @@
 	{{ form_start(form) }}
 	{{ form_widget(form) }}
 	<button class="btn">{{ button_label|default('Filtrer') }}</button>
+	{% if is_filtered %}
+		<button type='button' onclick="location.href='{{path('app_programmes')}}' "> Tous </button>
+	{% endif %}
 	{{ form_end(form) }}
-
+	
 	<div class='d-flex flex-wrap justify-center'>
 		{% for produit in produits %}
 
@@ -31,4 +34,4 @@
 		{% endfor %}
 	</div>
 </div>
-< {% endblock %}
+{% endblock %}

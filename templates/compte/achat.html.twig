@@ -20,15 +20,14 @@
             </tr>
         </thead>
         <tbody>
-        {% for achat in user.achat %}
+        {% for achat in user.achat|filter(achat => achat.status == 'bought') %}
             <tr>
                 <td>{{ achat.id }}</td>
 				<td>{{ achat.produit }}</td>
                 <td>Du {{ achat.planning.DateDepart | date("d/m/Y") }} - au {{achat.planning.DateFin | date("d/m/Y")}}</td>
-                <td>{{ achat.prix }}</td>
+                <td>{{ achat.prix|number_format(0,',',' ') }} € </td>
                 <td>
                     <a href="{{ path('app_achat_show', {'id': achat.id}) }}">Voir</a>
-                    <a href="{{ path('app_achat_edit', {'id': achat.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -38,7 +37,6 @@
         {% endfor %}
         </tbody>
     </table>
-
 
 	<a href="{{ path('app_compte') }}">Retour</a>
 

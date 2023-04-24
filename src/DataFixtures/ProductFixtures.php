@@ -49,7 +49,7 @@ class ProductFixtures extends Fixture
             
 
             // $product->setImage('https://placehold.co/600x400?text='.$product->getTitle());
-            $product->setImage('/images/produits/produit (' . mt_rand(1, 28) . ').jpg');
+            $product->setImage('/images/produits/produit (' . mt_rand(1, 28) . ').webp');
 
 
             // $product->setImage($faker->image('/images',640,480, true));

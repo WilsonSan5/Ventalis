@@ -6,16 +6,16 @@ const stripe = Stripe('pk_test_51Mf1j1FufBPCUONNqyxowfyRialcOGzND5Xpi7uudebU7aqv
 
 //Pointer sur le nom de domaine
 
-var id_produit = document.getElementById('id_produit').innerText
-var id_planning = document.getElementById('id_planning').innerHTML
+// var id_produit = document.getElementById('id_produit').innerText
+// var id_planning = document.getElementById('id_planning').innerHTML
 
 
 const originUrl = document.location.origin
 const intentUrl = originUrl + '/intentPayment'
 const successUrl = originUrl +'/confirmation'
 
-console.log('originUrl :'+originUrl)
-console.log(id_planning)
+console.log('originUrl :'+ originUrl)
+// console.log(id_planning)
 
 
 var price = document.getElementById('prix').innerText
@@ -24,7 +24,10 @@ var prenomUser = document.getElementById('prenomUser').innerText
 
 console.log(price, nomUser, prenomUser)
 
-const items = [{ prix: price, prenom: prenomUser, nom: nomUser, id_produit: id_produit, id_planning: id_planning }];
+const items = [{
+  prix: price, prenom: prenomUser, nom: nomUser,
+  // id_produit: id_produit, id_planning: id_planning
+}];
 
 console.log(items)
 

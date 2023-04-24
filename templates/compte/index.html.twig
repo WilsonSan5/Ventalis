@@ -14,36 +14,6 @@
 		{{user.email}}</p>
 	<button type='button' onclick="location.href='{{path('app_compte_edit')}}';">Paramètre du compte</button>
 
-	<h2>Panier
-	</h2>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Voyage</th>
-				<th>Planning</th>
-				<th>Prix</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for achat in user.achat %}
-				<tr>
-					<td>{{ achat.produit }}</td>
-					<td>Du
-						{{ achat.planning.DateDepart | date("d/m/Y") }}
-						- au
-						{{achat.planning.DateFin | date("d/m/Y")}}</td>
-					<td>{{ achat.prix }}</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="3">Panier vide</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<button>Voir plus</button>
-
 	<h2>Derniers achats</h2>
 	<table class="table">
 		<thead>

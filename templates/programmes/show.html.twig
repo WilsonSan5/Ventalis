@@ -31,48 +31,39 @@
 		{{produit.descriptionProgramme}}
 	</p>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Nombre de jours</th>
-				<td>{{ produit.nbrJour }}</td>
-			</tr>
-			<tr>
-				<th>Nombre de nuits</th>
-				<td>{{ produit.nbrNuit }}</td>
-			</tr>
-			<tr>
-				<th>Prix</th>
-				<td>
-					<b>{{ produit.prixDefaut }}
-						€</b>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
 	{% if produit.planning|length > 0 %}
 		<form method="GET" action="{{ path('app_programmes_addCart', {'id': produit.id}) }}">
 			<select name="planning">
-				{% for planning in produit.planning %}
+				{% for planning in produit.planning|filter(planning => planning.quantite > 0) %}
+					{# Affiche uniquement les plannings qui ont encore au moins 1 place restante #}
 					<option value="{{planning.id}}">{{planning.DateDepart|date("d/m/Y") }}
+						au
+						{{planning.DateFin|date("d/m/Y")}}
 						-
-						{{planning.DateFin|date("d/m/Y")}}</option>
+						{{planning.prix | number_format(0,',',' ')}}
+						€ (
+						{% if planning.quantite > 1 %}
+							{{planning.quantite}}
+							places restantes
+						{% else %}
+							place restante
+						{% endif %})
+						{# accord au singulier s'il n'y a qu'une place restante #}
+
+					</option>
 				{% endfor %}
 			</select>
 			<select name="quantite">
-				<option value=1>1</option>
-				<option value=2>2</option>
-				<option value=3>3</option>
-				<option value=4>4</option>
-				<option value=5>5</option>
-				<option value=6>6</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
 			</select>
-
 			<input type="submit" value="Ajouter au panier">
 		</form>
 	{% else %}
-
 		<p class='alert'>Aucun planning disponible</p>
 	{% endif %}
 
