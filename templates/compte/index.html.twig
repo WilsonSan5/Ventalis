@@ -24,7 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for achat in user.achat %}
+			{% for achat in user.achat|filter(achat => achat.status == 'bought') %}
 				<tr>
 					<td>{{ achat.produit }}</td>
 					<td>Du

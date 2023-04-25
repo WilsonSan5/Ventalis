@@ -46,9 +46,11 @@
 							<a class="nav-link" href="{{path('app_message')}}">Assistance</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_contact')}}">Contact</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link" href="{{path('app_compte_panier')}}">Panier</a>
 						</li>
-
 						{% if is_granted('ROLE_EMP') %}
 							<li class="nav-item">
 								<a class='nav-link' href='#'>
@@ -70,6 +72,9 @@
 							<a class="nav-link" href="{{path('app_programmes')}}">Tous les programmes</a>
 						</li>
 						<li class="nav-item">
+							<a class="nav-link" href="{{path('app_contact')}}">Contact</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link" href="{{path('app_login')}}">Connexion</a>
 						</li>
 						<li class="nav-item">
@@ -78,7 +83,13 @@
 					{% endif %}
 				</ul>
 			</div>
-		</div>
+		</nav>
+		{% for alert in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ alert }}
+			</div>
+		{% endfor %}
 	</body>
-</html></nav><div class='container'> {% block body %}{% endblock %}
-</div></body></html></body></html></body></html>
+</html>
+<div class='container'> {% block body %}{% endblock %}
+	</div>

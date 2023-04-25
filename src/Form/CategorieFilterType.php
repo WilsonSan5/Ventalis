@@ -14,9 +14,10 @@ class CategorieFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('categorie', EntityType::class,[
+            ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'label' => 'Filtrer par catégorie'
+                'label' => 'Filtrer par catégorie',
+                'placeholder' => 'Tous',
             ])
         ;
     }

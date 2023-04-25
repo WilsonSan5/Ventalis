@@ -5,33 +5,40 @@
 
 {% block body %}
 
-<div class="container">
-	<h1>Tous les voyages</h1>
+	<div class="container">
+		<h1>Tous les voyages</h1>
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{% if is_filtered %}
+			<button type='button' onclick="location.href='{{path('app_programmes')}}' ">
+				Tous
+			</button>
+		{% endif %}
+		{{ form_end(form) }}
 
-	{{ form_start(form) }}
-	{{ form_widget(form) }}
-	<button class="btn">{{ button_label|default('Filtrer') }}</button>
-	{% if is_filtered %}
-		<button type='button' onclick="location.href='{{path('app_programmes')}}' "> Tous </button>
-	{% endif %}
-	{{ form_end(form) }}
-	
-	<div class='d-flex flex-wrap justify-center'>
-		{% for produit in produits %}
+		<div class='d-flex flex-wrap justify-center'>
+			{% for produit in produits %}
 
-			<div class="card" style="width: 18rem;">
-				<img src="{{produit.image}}" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title">
-						{{produit.title}}
-					</h5>
-					<p class="card-text ">
-						{{produit.introduction}}
-					</p>
-					<a href="{{ path('app_programmes_show', {'id': produit.id}) }}" class="btn btn-primary">Voir</a>
+				<div class="card" style="width: 18rem;">
+					<img src="{{produit.image}}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">
+							{{produit.title}}
+						</h5>
+						<p class="card-text ">
+							{{produit.introduction}}
+						</p>
+						<a href="{{ path('app_programmes_show', {'id': produit.id}) }}" class="btn btn-primary">Voir</a>
+					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		</div>
 	</div>
-</div>
+
+	{# Script javascript pour donner au formualaire l'attribut onchange='submit()'  #}
+	<script>
+		var form = document.getElementById('categorie_filter_categorie');
+form.setAttribute('onchange', 'this.form.submit()');
+	</script>
+
 {% endblock %}

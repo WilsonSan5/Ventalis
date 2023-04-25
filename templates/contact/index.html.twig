@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ContactController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		form {
+			display: flex;
+			flex-direction: column;
+			background-color: whitesmoke;
+			border-radius: 10px;
+			padding: 2em;
+		}
+		textarea {
+			height: 200px;
+			border-radius: 5px;
+			border: 1px solid grey;
+		}
+
+		input {
+			padding: 5px;
+			margin-bottom: 1em;
+			resize: none;
+			border-radius: 5px;
+			border: 1px solid grey;
+		}
+
+		#submit-btn {
+			padding: 0.5em 2em;
+			border-radius: 5px;
+			border: none;
+			color: white;
+
+			margin: 1em auto;
+
+			background-color: blue;
+		}
+		#submit-btn:hover {
+			background-color: blue;
+		}
+	</style>
+	{{dump(sent)}}
+	{% if sent == true %}
+		<div class='alert'>
+			<p>
+				Votre message a bien été envoyé
+			</p>
+		</div>
+	{% endif %}
+
+	<div>
+		<h1>
+			Nous contacter
+		</h1>
+		{{ form_start(form) }}
+		{{form_label(form.email)}}
+		{{ form_widget(form.email) }}
+
+		{{form_label(form.objet)}}
+		{{ form_widget(form.objet) }}
+
+		{{form_label(form.message)}}
+		{{ form_widget(form.message) }}
+
+		<button type='submit' id='submit-btn'>Envoyer</button>
+		{{ form_end(form) }}
+
+	</div>
+{% endblock %}

@@ -36,16 +36,15 @@ class ProgrammesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $filter = $form->getData()['categorie']; // champs categorie du form
-            $produits = $produitRepository->findByCategorie($filter); // méthode crée dans le repository par chatgpt...
+            $produits = $produitRepository->findByCategorie($filter); // méthode créee dans le repository par chatgpt...
             $is_filtered = true;
         } else {
-            $produits = $produitRepository->findAll();
+            $produits = $produitRepository->findAll(); // la méthode findAll() renvoie le repository en tableau d'objets.
             $is_filtered = false;
         }
 
         return $this->render('programmes/index.html.twig', [
             'produits' => $produits,
-            // la méthode findAll() renvoie le repository en tableau d'objets.
             'form' => $form,
             'is_filtered' => $is_filtered
         ]);
@@ -57,6 +56,7 @@ class ProgrammesController extends AbstractController
 
         return $this->render('programmes/show.html.twig', [
             'produit' => $produit,
+            'addedInCart' => false
         ]);
     }
 
@@ -66,6 +66,24 @@ class ProgrammesController extends AbstractController
         $id_planning = $_GET['planning'];
         $quantite = $_GET['quantite'];
         $planning = $planningRepository->findOneBy(['id' => $id_planning]);
+
+        $userCart = $achatRepository->findBy(['user' => $this->getUser(), 'status' => 'inCart']); // récupération de tous les plannings dans le panier
+
+        foreach ($userCart as $achatInCart) { // Pour chaque planning on va vérifier si il est identique au planning aujouté par l'utilisateur
+            $planningInCart = $achatInCart->getPlanning();
+            if ($planningInCart->getId() == $id_planning) {
+
+                $achatInCart->setQuantite($achatInCart->getQuantite() + $quantite); // S'il est identique : on ajoute à la quantité la nouvelle quantité choisie.
+                $achatRepository->save($achatInCart, true); // On sauvegarde
+
+                $this->addFlash('success', 'La quantité a été mise à jour');
+                return $this->redirectToRoute('app_programmes_show', [
+                    'id' => $produit->getId(),
+                    'user' => $this->getUser(),
+                    'addedInCart' => true // variable qui va permettre l'affichage d'un popup
+                ]);
+            }
+        }
 
         $date = new DateTime();
         $date->format('d/m/Y H:m');
@@ -82,10 +100,11 @@ class ProgrammesController extends AbstractController
         $achat->setStatus('inCart');
 
         $achatRepository->save($achat, true);
-
-        return $this->redirectToRoute('app_compte_panier', [
+        $this->addFlash('success', 'Le voyage a bien été ajouté au panier');
+        return $this->redirectToRoute('app_programmes_show', [
+            'id' => $produit->getId(),
             'user' => $this->getUser(),
+            'addedInCart' => true // variable qui va permettre l'affichage d'un popup
         ]);
     }
-
 }

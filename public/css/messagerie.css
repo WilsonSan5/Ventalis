@@ -26,7 +26,7 @@ button {
 .messageries ul {
     padding: 0;
     height: 70vh;
-    background-color: rgb(191, 191, 191);
+    background-color: whitesmoke;
     border-radius: 15px;
     list-style-type: none;
 }
@@ -66,7 +66,7 @@ hr {
 .view-container {
     display: flex;
     flex-direction: column;
-    background-color: rgb(120, 147, 255);
+    background-color: whitesmoke;
     border-radius: 10px;
     padding: 3em 3em;
     height: 750px;

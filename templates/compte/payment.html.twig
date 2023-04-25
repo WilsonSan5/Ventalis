@@ -27,26 +27,31 @@
 					<td>{{achat.quantite}}</td>
 					<td>{{ achat.prix }}
 						€</td>
-					<td>{{ achat.prix * achat.quantite }}
-						€</td>
+					<td>
+						<b>{{ achat.prix * achat.quantite }}
+							€
+						</b>
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
-	<h2>
-		<span id='nomUser'>{{app.user.nom}}
-		</span>
-		<span id='prenomUser'>{{app.user.prenom}}</span>
-	</h2>
 
 
 	<h2>
 		Prix total :
-		<span id='prix'>
-			{{totalPanier}}
+		<b>
+			<span id='prix'>
+				{{totalPanier}}
+			</span>
+			€
+		</h2>
+	</b>
+	<p>
+		<span id='nomUser'>{{app.user.nom}}
 		</span>
-		€
-	</h2>
+		<span id='prenomUser'>{{app.user.prenom}}</span>
+	</p>
 
 	<div
 		id="paiement">

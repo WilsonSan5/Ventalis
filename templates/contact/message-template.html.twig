@@ -1,0 +1,29 @@
+{% block body %}
+	<style>
+		.container {
+			padding: 2em;
+			background-color: white;
+			height: 500px;
+		}
+		p {
+			border: none;
+			background-color: whitesmoke;
+			border-radius: 5px;
+			padding: 1em;
+		}
+	</style>
+
+
+	<div class='container'>
+		<h2>
+			Expéditeur :
+			{{user_email}}
+		</h2>
+		<hr>
+		<p id='message'>
+			{{message}}
+		</p>
+	</div>
+
+
+{% endblock %}

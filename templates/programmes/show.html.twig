@@ -17,8 +17,6 @@
 			{{categorie}}
 		{% endfor %}
 	</p>
-
-
 	<h1>{{produit.title}}</h1>
 	<h2>
 		{{produit.introduction}}</h2>
@@ -68,4 +66,13 @@
 	{% endif %}
 
 	<a href="{{ path('app_programmes') }}">Retour</a>
+
+	{% if addedInCart %}
+		<div class='alert'>
+			<p></p>
+		</div>
+	{% endif %}
+
+
+	<script></script>
 {% endblock %}
