@@ -35,12 +35,6 @@ class Produit
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Achat::class)]
     private Collection $achats;
 
-    #[ORM\Column]
-    private ?int $nbrJour = null;
-
-    #[ORM\Column]
-    private ?int $nbrNuit = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $descriptionProgramme = null;
 
@@ -55,6 +49,9 @@ class Produit
 
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
     private Collection $categorie;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pays = null;
 
     public function __construct()
     {
@@ -181,30 +178,6 @@ class Produit
         return $this;
     }
 
-    public function getNbrJour(): ?int
-    {
-        return $this->nbrJour;
-    }
-
-    public function setNbrJour(int $nbrJour): self
-    {
-        $this->nbrJour = $nbrJour;
-
-        return $this;
-    }
-
-    public function getNbrNuit(): ?int
-    {
-        return $this->nbrNuit;
-    }
-
-    public function setNbrNuit(int $nbrNuit): self
-    {
-        $this->nbrNuit = $nbrNuit;
-
-        return $this;
-    }
-
     public function getDescriptionProgramme(): ?string
     {
         return $this->descriptionProgramme;
@@ -284,6 +257,18 @@ class Produit
             ->setParameter('category', $categorie)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?string $pays): self
+    {
+        $this->pays = $pays;
+
+        return $this;
     }
 
 }

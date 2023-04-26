@@ -1,0 +1,37 @@
+<link rel='stylesheet' type='text/css' href="/css/cards.css">
+
+<div class=' col-12 col-xl-6'>
+	<div class='horizontal-card'>
+		<div class='img-container'>
+			<img alt='image de {{produit.pays}}' src='{{produit.image}}'>
+		</div>
+		<div class='content-container'>
+			<div>
+				<p class='title'>
+					{{produit.title}}</p>
+				<p class='pays'>
+					{{produit.pays}}
+				</p>
+				<p class='introduction'>
+					{{produit.introduction}}
+				</p>
+				<p style='margin-top:1em; text-decoration:underline;'>Au programme :
+					<br>
+					<li>{{produit.descriptionProgramme}}</li>
+				</p>
+			</div>
+			<div>
+				<hr>
+				<div class='bottom-card'>
+					<p class='prix'>
+						<b>{{produit.prixDefaut}}&nbsp;€
+						</b>/nuit
+					</p>
+					<button class='button'>
+						Découvrir
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

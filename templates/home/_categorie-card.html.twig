@@ -1,0 +1,19 @@
+<link rel='stylesheet' type='text/css' href="/css/cards.css">
+
+<div class='categorie-card'>
+	{% if categorie.id > 8 %}
+		<img src='{{categorie.image}}' alt=''>
+		<p>
+			{% if categorie.nom == 'seul' %}
+				Seul
+			{% else %}
+				En
+				{{categorie.nom}}
+			{% endif %}
+		</p>
+
+	{% else %}
+		<img src='{{categorie.image}}' alt=''>
+		<p>{{categorie.nom}}</p>
+	{% endif %}
+</div>

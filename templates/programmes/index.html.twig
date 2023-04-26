@@ -26,9 +26,16 @@
 							{{produit.title}}
 						</h5>
 						<p class="card-text ">
+							<i>{{produit.pays}}
+							</i>
+							<br>
 							{{produit.introduction}}
 						</p>
-						<a href="{{ path('app_programmes_show', {'id': produit.id}) }}" class="btn btn-primary">Voir</a>
+						<p>
+							<b>{{produit.prixDefaut}}
+								€</b>
+							/nuit</p>
+						<a href="{{ path('app_programmes_show', {'id': produit.id}) }}" class="btn btn-primary">Découvrir</a>
 					</div>
 				</div>
 			{% endfor %}
