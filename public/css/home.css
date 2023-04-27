@@ -7,7 +7,8 @@ h2 {
     margin-top: -80px;
     padding-top: 80px;
     width: 100vw;
-    height: 600px;
+    height: 80vh;
+    max-height: 800px;
 
     /* background-image:
         linear-gradient(rgba(0, 0, 0, 0.313), rgba(0, 0, 0, 0.295)), url('/images/hero-banner.jpg'); */
@@ -32,6 +33,7 @@ video {
 }
 
 .hero-banner h1 {
+    font-size: 3em;
     position: absolute;
     top: 50%;
     left: 10%;

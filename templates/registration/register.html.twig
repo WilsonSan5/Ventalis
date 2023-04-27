@@ -1,22 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register
+{% block title %}Inscription
 {% endblock %}
 
-{% block body %}
-	<h1>Inscription</h1>
 
-	{{ form_start(registrationForm) }}
-	{{ form_row(registrationForm.email) }}
-	{{ form_row(registrationForm.nom) }}
-	{{ form_row(registrationForm.prenom,
+{% block body %}
+	<link rel='stylesheet' type='text/css' href="/css/register.css">
+	<div class='mini-nav'>
+		<a class='nav-link' href='{{path('app_home')}}'>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewbox="0 0 16 16">
+				<path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z"/>
+			</svg>
+		</a>
+	</div>
+	<div class='row gx-0 screen-size'>
+		<div class='image-container col-6 p-0'>
+			<img src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' alt=''>
+		</div>
+		<div class='form-container px-4 col-6'>
+			{{ form_start(registrationForm) }}
+
+			<h2>S'inscrire</h2>
+			{{ form_widget(registrationForm.email) }}
+			{{ form_widget(registrationForm.nom) }}
+			{{ form_widget(registrationForm.prenom,
     {label: 'Prénom'}) }}
-	{{ form_row(registrationForm.plainPassword, {
+			{{ form_widget(registrationForm.plainPassword, {
             label: 'Mot de passe'
         }) }}
-	{{ form_row(registrationForm.agreeTerms
-    ,{label:'Accepter les termes'}) }}
+			{{ form_row(registrationForm.agreeTerms) }}
+			<div>
+				<p style='font-size:1.2em;color:var(--primary-color);font-weight:500'>
+					À un clic de vivre une grande aventure !
+				</p>
+				<button type="submit" class="btn">Je crée un compte</button>
+			</div>
+			<p>Déjà un compte ?
+				<a href='{{path('app_login')}}'>
+					Connectez vous !</a>
+			</p>
 
-	<button type="submit" class="btn">S'inscrire</button>
-	{{ form_end(registrationForm) }}
+
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
 {% endblock %}
