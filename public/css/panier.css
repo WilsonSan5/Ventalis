@@ -1,0 +1,36 @@
+		hr {
+			margin-top: 2em !important;
+			color: grey
+		}
+
+		h1 {
+			margin-bottom: 1rem;
+		}
+
+		.total-panier {
+			border: none;
+			border-radius: 20px;
+			box-shadow: 0 0 10px rgb(182, 182, 182);
+			margin-top: 4rem;
+			padding: 1em;
+			text-align: center;
+			height: 150px;
+		}
+
+		.total-panier h2 {
+			font-size: 1.5em;
+		}
+
+		button {
+			background-color: var(--secondary-color);
+			border-radius: 10px;
+			border: none;
+			padding: 0.3em 2em;
+			color: white;
+		}
+
+		.total-panier button {
+			margin-top: 2em;
+			background-color: var(--primary-color);
+			width: 100%;
+		}

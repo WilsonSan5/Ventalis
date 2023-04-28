@@ -53,15 +53,15 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Veuillez entrer un mot de passe',
                     ]),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères.',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                     new Regex([
-                        'pattern' => '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/',
+                        'pattern' => '/^(?=.*\d)(?=.*[A-Z])(?=.*\W).+$/',
                         'match' => true,
-                        'message' => 'Votre mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial '
+                        'message' => 'Votre mot de passe doit contenir au moins une majuscule, un chiffre et un caractère spécial.'
                     ])
                 ],
             ])

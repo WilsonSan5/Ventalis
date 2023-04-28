@@ -1,0 +1,30 @@
+<link rel='stylesheet' type='text/css' href="/css/cards.css">
+
+<div class="card-vertical" style="width: 18rem;" id='vertical-card' onclick="location.href='{{ path('app_programmes_show', {'id': produit.id}) }}';">
+
+	<div class='image-container'>
+		<img src="{{produit.image}}" class="card-img-top" alt="{{produit.pays}}" id='card-image'>
+	</div>
+	<div class="card-body">
+		<h5 class="card-title">
+			{{produit.title}}
+		</h5>
+		<p class="card-text ">
+			<span style='text-decoration:underline;'>{{produit.pays}}</span>
+			<br>
+			{{produit.introduction}}
+		</p>
+		{# <p>
+					Au programme :
+					<li>{{produit.descriptionProgramme}}</li>
+				</p> #}
+		<hr>
+		<div class='bottom-card'>
+			<p>
+				<b class='prix'>{{produit.prixDefaut}}
+					€</b>
+				/nuit</p>
+			<button onclick="location.href='{{ path('app_programmes_show', {'id': produit.id}) }}';" class="btn btn-primary">Découvrir</button>
+		</div>
+	</div>
+</div>

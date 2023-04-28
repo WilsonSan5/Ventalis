@@ -17,10 +17,16 @@
 		<div class='image-container col-6 p-0'>
 			<img src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' alt=''>
 		</div>
+
 		<div class='form-container px-4 col-6'>
 			{{ form_start(registrationForm) }}
-
 			<h2>S'inscrire</h2>
+
+
+			{% if form_errors(registrationForm.plainPassword)  %}
+				<span class='alert alert-warning'>{{form_errors(registrationForm.plainPassword)}}</span>
+			{% endif %}
+
 			{{ form_widget(registrationForm.email) }}
 			{{ form_widget(registrationForm.nom) }}
 			{{ form_widget(registrationForm.prenom,

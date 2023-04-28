@@ -28,6 +28,18 @@
 				<h2>
 					Envie de repartir ?
 				</h2>
+				{% if error %}
+					{% if error.message == 'Bad credentials.' %}
+						<span class='alert alert-warning'>
+							E-mail incorrect.
+						</span>
+					{% else %}
+						<span class='alert alert-danger'>
+							Mot de passe incorrect.
+						</span>
+					{% endif %}
+				{% endif %}
+
 				<label for="username">Email</label>
 				<input type="text" id="username" name="_username" value="{{ last_username }}">
 

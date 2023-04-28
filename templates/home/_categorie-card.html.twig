@@ -1,6 +1,6 @@
 <link rel='stylesheet' type='text/css' href="/css/cards.css">
 
-<div class='categorie-card'>
+<div class='categorie-card' id='categorie-card' onclick="location.href='{{path('app_programmes',{categorie_id: categorie.id})}}';">
 	{% if categorie.id > 8 %}
 		<img src='{{categorie.image}}' alt=''>
 		<p>
@@ -11,7 +11,6 @@
 				{{categorie.nom}}
 			{% endif %}
 		</p>
-
 	{% else %}
 		<img src='{{categorie.image}}' alt=''>
 		<p>{{categorie.nom}}</p>

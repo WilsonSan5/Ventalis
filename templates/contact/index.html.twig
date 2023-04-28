@@ -40,13 +40,6 @@
 			background-color: blue;
 		}
 	</style>
-	{% if sent == true %}
-		<div class='alert'>
-			<p>
-				Votre message a bien été envoyé
-			</p>
-		</div>
-	{% endif %}
 
 	<div>
 		<h1>
@@ -64,6 +57,5 @@
 
 		<button type='submit' id='submit-btn'>Envoyer</button>
 		{{ form_end(form) }}
-
 	</div>
 {% endblock %}

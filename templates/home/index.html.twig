@@ -4,41 +4,28 @@
 {% endblock %}
 
 {% block body %}
-
 	<link rel='stylesheet' type='text/css' href="/css/home.css">
-
-	<style></style>
-
 	<div class="hero-banner">
-		<h1>Laissez vous emporter !</h1>
+		<h1>Laissez-vous emporter !</h1>
 		<video autoplay='autoplay' muted loop>
 			<source src='/images/video/hero-banner-video.mp4'>
 		</video>
 	</div>
-
 	<div class='container'>
-
 		<h2>
 			Les avantages de Ventalis</h2>
 		<div id='presentation-section'>
 			<div>
 				<img alt='' src='https://cdn-icons-png.flaticon.com/512/6503/6503245.png'>
-
 				<p>Is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
-
 			</div>
 			<div>
 				<img alt='' src='https://cdn-icons-png.flaticon.com/512/6503/6503245.png'>
-
 				<p>Lorem a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
-
 			</div>
-
 			<div>
 				<img alt='' src='https://cdn-icons-png.flaticon.com/512/6503/6503245.png'>
-
 				<p>Established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
-
 			</div>
 		</div>
 		{# Section Bons plans #}
@@ -48,7 +35,6 @@
 				{{ include('/home/_horizontal-card.html.twig') }}
 			{% endfor %}
 		</div>
-
 		{# Section meilleur ventes #}
 		<h2>Les plus visités !</h2>
 		<div class='row gx-3'>
@@ -56,19 +42,16 @@
 				{{ include('/home/_horizontal-card.html.twig') }}
 			{% endfor %}
 		</div>
-
 		<h2>Partez selon vos envies !</h2>
 		<div class='categorie-section'>
 			{% for categorie in categories|slice(1,5) %}
 				{% include '/home/_categorie-card.html.twig' %}
 			{% endfor %}
 		</div>
-
 		<h2></h2>
 		<div class='categorie-section'>
 			{% for categorie in categories|slice(9,3) %}
 				{% include '/home/_categorie-card.html.twig' %}
 			{% endfor %}
 		</div>
-
 	{% endblock %}

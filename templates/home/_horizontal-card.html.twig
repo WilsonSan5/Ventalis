@@ -27,7 +27,7 @@
 						<b>{{produit.prixDefaut}}&nbsp;€
 						</b>/nuit
 					</p>
-					<button class='button'>
+					<button class='button' onclick="location.href='{{path('app_programmes_show',{id: produit.id})}}';">
 						Découvrir
 					</button>
 				</div>

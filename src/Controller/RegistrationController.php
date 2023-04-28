@@ -11,45 +11,41 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
-
-use Faker;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
-    {   
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, ValidatorInterface $validator): Response
+    {
 
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
 
+        $errors = $validator->validate($user);
+
+        // Attribution du conseiller ---------------------------------------------------------
         $allUsers = $userRepository->findBy(['matricule' => null]);
-        $allConseiller = $userRepository->findUserByRole('ROLE_EMP'); // récupère dans un tableau tous les employés
-
-        $nbrOfUsers = 0;
-        
-        foreach($allConseiller as $key => $conseiller){
+        $allConseillers = $userRepository->findUserByRole('ROLE_EMP'); // récupère dans un tableau tous les employés
+        // Calcul du nombre d'utilisateur lié à chaque employé
+        $nbrOfUsers = 0; // C'est la valeur qu'on va stocké pour comparer à chaque boucle
+        foreach ($allConseillers as $conseiller) { // On va boucler sur tout les conseillers
             $result = 0;
-            
-            foreach($allUsers as $key => $user2){
-
-                if( $user2->getConseiller()  == $conseiller){
+            foreach ($allUsers as $user2) { // On boucle sur tous les users, si son conseiller est celui de la boucle alors on compte +1
+                if ($user2->getConseiller() == $conseiller) {
                     $result++;
                 }
-            }
-            if($result < $nbrOfUsers || $nbrOfUsers == 0 ){
+            } // Une fois qu'on a le nombre d'utilisteur (result) on compare avec nbrOfUser.
+            if ($result < $nbrOfUsers || $nbrOfUsers == 0) { // Si le résultat est plus petit, on le garde, sinon on passe au suivant.
                 $nbrOfUsers = $result;
-                $conseiller_id = $conseiller->getId();
+                $conseiller_id = $conseiller->getId(); // Si le résultat est plus petit, alors on récupère l'id du conseiller est on le stocke
             }
         }
-        $conseiller = $userRepository->findOneBy(['id' => $conseiller_id]);
-
-        $user->setConseiller($conseiller); // Attribue un id aléatoire entre 0 et le nombre d'employés
-        dump($user->getConseiller());
-
+        $conseiller = $userRepository->findOneBy(['id' => $conseiller_id]); // On cherche le conseiller par son id
+        $user->setConseiller($conseiller);
+        //  FIN Attribution du conseiller -------------------------------------------------------
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -61,13 +57,16 @@ class RegistrationController extends AbstractController
             );
             $entityManager->persist($user);
             $entityManager->flush();
-        
-            return $this->redirectToRoute('app_home');
+
+            return $this->redirectToRoute('app_login');
         }
-        
+
+        ;
+
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'errors' => $errors
         ]);
     }
 }

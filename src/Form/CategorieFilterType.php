@@ -16,8 +16,7 @@ class CategorieFilterType extends AbstractType
         $builder
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'label' => 'Filtrer par catégorie',
-                'placeholder' => 'Tous',
+                'label' => 'Filtrer par catégorie'
             ])
         ;
     }

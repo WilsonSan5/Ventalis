@@ -4,48 +4,35 @@
 {% endblock %}
 
 {% block body %}
+	<link rel='stylesheet' type='text/css' href="/css/programmes_index.css">
 
+	<div class='filter-bar'>
+		<div class='container d-flex align-items-center justify-content-between'>
+			<h1>
+				{% if filter.nom == 'seul' %}
+					Partir seul
+				{% else %}
+					Partir en
+					{{filter.nom}}
+				{% endif %}
+			</h1>
+
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			{{ form_end(form) }}
+		</div>
+	</div>
 	<div class="container">
-		<h1>Tous les voyages</h1>
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-		{% if is_filtered %}
-			<button type='button' onclick="location.href='{{path('app_programmes')}}' ">
-				Tous
-			</button>
-		{% endif %}
-		{{ form_end(form) }}
-
-		<div class='d-flex flex-wrap justify-center'>
+		<div class='cards-container'>
 			{% for produit in produits %}
-
-				<div class="card" style="width: 18rem;">
-					<img src="{{produit.image}}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">
-							{{produit.title}}
-						</h5>
-						<p class="card-text ">
-							<i>{{produit.pays}}
-							</i>
-							<br>
-							{{produit.introduction}}
-						</p>
-						<p>
-							<b>{{produit.prixDefaut}}
-								€</b>
-							/nuit</p>
-						<a href="{{ path('app_programmes_show', {'id': produit.id}) }}" class="btn btn-primary">Découvrir</a>
-					</div>
-				</div>
+				{% include '/programmes/_vertical-card.html.twig' %}
 			{% endfor %}
 		</div>
 	</div>
+</div>
 
-	{# Script javascript pour donner au formualaire l'attribut onchange='submit()'  #}
-	<script>
-		var form = document.getElementById('categorie_filter_categorie');
+{# Script javascript pour donner au formualaire l'attribut onchange='submit()'  #}
+<script>
+	var form = document.getElementById('categorie_filter_categorie');
 form.setAttribute('onchange', 'this.form.submit()');
-	</script>
-
-{% endblock %}
+</script>{% endblock %}
