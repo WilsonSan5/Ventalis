@@ -4,12 +4,17 @@
     gap: 1em;
 }
 
-.filter-bar {
-    width: 100%;
-    margin-top: -1px;
+.filter-box {
+    padding: 1em;
+    border-radius: 10px;
+    margin-top: 1em;
     position: fixed;
-    z-index: 1;
+    background-color: whitesmoke;
+    /* box-shadow: 0px 0px 10px rgb(215, 215, 215); */
+}
 
-    background-color: white;
-    box-shadow: 0px 0px 10px rgb(215, 215, 215);
+.filter-box form div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }

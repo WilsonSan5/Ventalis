@@ -6,3 +6,7 @@
 body {
     overflow-x: hidden;
 }
+
+.alerte {
+    margin-top: 55px !important;
+}

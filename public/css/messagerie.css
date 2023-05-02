@@ -1,21 +1,21 @@
 .container {
     min-width: 90% !important;
+
 }
 
-* {
-    /* border: 1px solid red; */
+body {
+    padding-top: 1em;
 }
-
-
 
 a {
     text-decoration: none;
+    color: rgb(0, 160, 172);
 }
 
 /*  Messageries côté gauche */
 
 button {
-    background-color: rgb(166, 166, 166);
+    background-color: whitesmoke;
     padding: 0.4em 0.7em;
     border-radius: 30px;
     border: none;
@@ -26,15 +26,23 @@ button {
 .messageries ul {
     padding: 0;
     height: 70vh;
-    background-color: whitesmoke;
     border-radius: 15px;
     list-style-type: none;
 }
 
-.messageries li {
-    background-color: rgb(130, 197, 238);
+.messageries ul li {
+    margin-bottom: 1em;
+    padding: 0.5em 1em;
+    background-color: whitesmoke;
     border-radius: 10px;
-    box-shadow: 0px 0px 5px;
+    box-shadow: 0px 0px 5px rgb(216, 216, 216);
+    height: 80px;
+}
+
+.messageries ul li p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /*  Messages côté droit */
@@ -70,6 +78,7 @@ hr {
     border-radius: 10px;
     padding: 3em 3em;
     height: 750px;
+    box-shadow: 0px 0px 5px rgb(203, 203, 203);
 }
 
 .big-button {
@@ -78,7 +87,7 @@ hr {
     margin-right: 0;
 
     color: white;
-    background-color: rgb(44, 62, 255);
+    background-color: rgb(255, 203, 46);
     border-radius: 10px;
     padding: 1em 2em;
 }
@@ -112,19 +121,27 @@ form .row {
 }
 
 .bubble {
-    border-radius: 12px;
-    margin: 0.2em 0;
-    padding: 0.2em 1em;
+    border-radius: 20px;
+    margin: 0.5em 0;
+    padding: 0.5em 1em;
     width: max-content;
+    max-width: 80%;
     background-color: rgb(255, 255, 255);
 }
 
 .user-bubble {
     margin-left: auto;
-    background-color: rgb(39, 39, 255);
+    background-color: var(--primary-color)
 }
 
 .user-message {
+    margin: 0;
     color: white;
+}
 
+.view-container form button {
+    color: white;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    padding: 0.5em 1.2em;
 }

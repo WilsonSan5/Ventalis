@@ -4,75 +4,107 @@
 {% endblock %}
 
 {% block body %}
+<link rel='stylesheet' type='text/css' href='/css/programme_show.css'>
+<div class='row'>
+	<div class='col-6 col-lg-8 image-container'>
+		<img src='{{produit.image}}' alt=' image de {{produit.title}}'></div>
+	<div class='col-6 col-lg-4'>
+		<div class='content-container'>
+			<h2>{{produit.pays}}</h2>
+			<h1>{{produit.title}}</h1>
+			<p class='description'>{{produit.description}}</p>
+			<div class='programme'>
+				<b>Au programme :</b>
+				<br>
+				<li>{{produit.descriptionProgramme}}</li>
+				<li>{{produit.descriptionProgramme}}</li>
+				<li>{{produit.descriptionProgramme}}</li>
+				<li>{{produit.descriptionProgramme}}</li>
+			</div>
+			{% if produit.planning|length > 0 %}
+				<form method="GET" action="{{ path('app_programmes_addCart', {'id': produit.id}) }}">
+					<div class='field-row'>
+						<div class='field' style='flex-basis:80%'>
+							<label name='planning'>
+								<b>Dates</b>
+							</label>
+							<select name="planning" id='planning'>
+								{% for planning in produit.planning|filter(planning => planning.quantite > 0) %}
+									{# Affiche uniquement les plannings qui ont encore au moins 1 place restante #}
+									<option value="{{planning.id}}" data-rc="{{planning.prix}}">{{planning.DateDepart|date("d/m/Y") }}
+										au
+										{{planning.DateFin|date("d/m/Y")}}
+										-
+										<span id='prix'>{{planning.prix | number_format(0,',',' ')}}</span>
+										€ (
+										{% if planning.quantite > 1 %}
+											{{planning.quantite}}
+											places restantes
+										{% else %}
+											place restante
+										{% endif %})
+										{# accord au singulier s'il n'y a qu'une place restante #}
 
-	<style>
-		img {
-			width: 640px;
-			height: 400px;
-			object-fit: cover;
-		}
-	</style>
-	<p>
-		{% for categorie in produit.categorie %}
-			{{categorie}}
-		{% endfor %}
-	</p>
-	<h1>{{produit.title}}</h1>
-	<h2>
-		{{produit.introduction}}</h2>
-	<div><img src='{{produit.image}}' alt=' image de {{produit.title}}'>
-	</div>
-	<p>{{produit.description}}</p>
-	<p>
-		<b>Au programme :</b>
-		<br>
-		{{produit.descriptionProgramme}}
-	</p>
-
-	{% if produit.planning|length > 0 %}
-		<form method="GET" action="{{ path('app_programmes_addCart', {'id': produit.id}) }}">
-			<select name="planning">
-				{% for planning in produit.planning|filter(planning => planning.quantite > 0) %}
-					{# Affiche uniquement les plannings qui ont encore au moins 1 place restante #}
-					<option value="{{planning.id}}">{{planning.DateDepart|date("d/m/Y") }}
-						au
-						{{planning.DateFin|date("d/m/Y")}}
-						-
-						{{planning.prix | number_format(0,',',' ')}}
-						€ (
-						{% if planning.quantite > 1 %}
-							{{planning.quantite}}
-							places restantes
-						{% else %}
-							place restante
-						{% endif %})
-						{# accord au singulier s'il n'y a qu'une place restante #}
-
-					</option>
-				{% endfor %}
-			</select>
-			<select name="quantite">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-			</select>
-			<input type="submit" value="Ajouter au panier">
-		</form>
-	{% else %}
-		<p class='alert'>Aucun planning disponible</p>
-	{% endif %}
-
-	<a href="{{ path('app_programmes') }}">Retour</a>
-
-	{% if addedInCart %}
-		<div class='alert'>
-			<p></p>
+									</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class='field'>
+							<label name='quantite' style='text-align: center;'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewbox="0 0 16 16">
+									<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+								</svg>
+							</label>
+							<select name="quantite" id='quantite'>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+							</select>
+						</div>
+					</div>
+					<div class='field-row'>
+						<p class='prix-total'>Total :
+							<b style='font-size:2em;color:black'>
+								<span id='prix-total'>{{produit.prixDefaut}}</span>
+								€</b>
+						</p>
+						<input type="submit" value="Ajouter au panier">
+					</div>
+				</form>
+			{% else %}
+				<p class='alert'>Aucun planning disponible</p>
+			{% endif %}
+			{# <a href="{{ path('app_programmes') }}" style='text-align:right'>Retour</a> #}
 		</div>
-	{% endif %}
+	</div>
+</div>
+<script>
+	// script pour rafraichir le prix total en fonction des 2 select (prix et quantité)
 
+var selectionPlanning = document.getElementById("planning");
+var selectionQuantite = document.getElementById("quantite");
 
-	<script></script>
-{% endblock %}
+var planningPrix = selectionPlanning.getElementsByTagName('option')[0].dataset.rc; // on récupère le prix de la 1ère option, Cela va être notre prix par défaut.
+var quantite = selectionQuantite.getElementsByTagName('option')[0].value;
+
+var prixTotal = planningPrix * quantite;
+var twigTotal = document.getElementById('prix-total');
+console.log(twigTotal.innerHTML);
+twigTotal.innerHTML = prixTotal;
+
+selectionPlanning.onchange = function (event) {
+planningPrix = event.target.options[event.target.selectedIndex].dataset.rc;
+prixTotal = planningPrix * quantite;
+twigTotal.innerHTML = prixTotal;
+};
+
+selectionQuantite.onchange = function (event) {
+quantite = event.target.options[event.target.selectedIndex].value;
+prixTotal = planningPrix * quantite;
+twigTotal.innerHTML = prixTotal;
+};
+
+</script {% endblock %}

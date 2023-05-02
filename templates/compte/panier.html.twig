@@ -13,21 +13,25 @@
 				<h1>Mon panier</h1>
 				{% for achat in produitsInCart %}
 					{% include '/compte/_cart-card.html.twig' %}
+				{% else %}
+					<i>
+						Votre panier est vide
+					</i>
 				{% endfor %}
 			</div>
-			<div class='col-3 total-panier'>
+			{% if produitsInCart|length > 0 %}
+				<div class='col-3 total-panier'>
+					<h2>Total panier :
+						<b>{{totalPanier|number_format(0,',', ' ')}}€</b>
+					</h2>
+					<button type='button' onclick="location.href='{{path('app_panier_payment')}}';">Passer la commande</button>
+				</div>
+				<hr>
 				<h2>Total panier :
 					<b>{{totalPanier|number_format(0,',', ' ')}}€</b>
 				</h2>
-				{% if produitsInCart|length > 0 %}
-					<button type='button' onclick="location.href='{{path('app_panier_payment')}}';">Passer la commande</button>
-				{% endif %}
-			</div>
+			{% endif %}
 		</div>
-		<hr>
-		<h2>Total panier :
-			<b>{{totalPanier|number_format(0,',', ' ')}}€</b>
-		</h2>
 		<button type='button' onclick="location.href='{{path('app_programmes')}}';">Continuer mes achats</button>
 	</div>
 {% endblock %}

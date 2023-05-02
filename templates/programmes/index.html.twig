@@ -7,26 +7,34 @@
 	<link rel='stylesheet' type='text/css' href="/css/programmes_index.css">
 
 	<div class='filter-bar'>
-		<div class='container d-flex align-items-center justify-content-between'>
-			<h1>
-				{% if filter.nom == 'seul' %}
-					Partir seul
-				{% else %}
-					Partir en
-					{{filter.nom}}
-				{% endif %}
-			</h1>
-
-			{{ form_start(form) }}
-			{{ form_widget(form) }}
-			{{ form_end(form) }}
-		</div>
+		<div class='container d-flex align-items-center justify-content-between'></div>
 	</div>
 	<div class="container">
-		<div class='cards-container'>
-			{% for produit in produits %}
-				{% include '/programmes/_vertical-card.html.twig' %}
-			{% endfor %}
+		<div class='row'>
+			<div class='col-2'>
+				<div class='filter-box'>
+					{{ form_start(form) }}
+					{{ form_widget(form) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+			<div class=' col-10'>
+				<h1>
+					{% if filter.nom == 'seul' %}
+						Partir seul
+					{% elseif filter.nom == 'Tous' %}
+						Tous
+					{% else %}
+						Partir en
+						{{filter.nom}}
+					{% endif %}
+				</h1>
+				<div class='cards-container'>
+					{% for produit in produits %}
+						{% include '/programmes/_vertical-card.html.twig' %}
+					{% endfor %}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -34,7 +34,7 @@
     transition: 0.3s ease-in-out;
 }
 
-.horizontal-card img:hover {
+.horizontal-card:hover img {
     transform: scale(100%);
 }
 
@@ -57,9 +57,9 @@
 }
 
 .prix {
+    color: black;
     margin: 0;
     font-size: 1.5em;
-
 }
 
 .pays {
@@ -67,11 +67,10 @@
     font-style: italic;
 }
 
-
 .horizontal-card .button {
     font-weight: 500;
     border: none;
-    padding: 0 2em;
+    padding: 0.5em 1em;
     border-radius: 12px;
     color: white;
     background-color: var(--primary-color)
@@ -84,16 +83,13 @@
 
 .categorie-card {
     position: relative;
-
     border-radius: 20px;
-    flex-basis: 32%;
     height: 250px;
     overflow: hidden;
-
     cursor: pointer;
 }
 
-.categorie-card img:hover {
+.categorie-card:hover img {
     transform: scale(105%);
 }
 
@@ -134,7 +130,7 @@
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0px 0px 5px rgb(181, 181, 181);
-    height: 500px;
+    height: 450px;
     cursor: pointer;
 }
 
@@ -183,7 +179,6 @@
 }
 
 .bottom-card .prix {
-    color: var(--secondary-color);
     font-size: 1.5em;
 }
 

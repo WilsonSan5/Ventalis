@@ -5,93 +5,93 @@
 
 {% block body %}
 	<link rel='stylesheet' type='text/css' href="/css/messagerie.css">
+	<div class='container'>
+		<div class='row'>
+			<div class='messageries col-4'>
+				<p>
+					<b>Bonjour, je suis
+						{{app.user.conseiller.prenom}}
+						votre conseiller.
+					</b>
+					<br>
+					Comment puis-je vous aider ?</p>
+				<form action="{{path('app_message')}}" method='GET'>
+					<button name='filter' type='submit' value='ongoing'>
+						En cours
+					</button>
+					<button name='filter' type='submit' value='done'>
+						Résolu
+					</button>
+					<button name='filter' type='submit' value='all'>
+						Tout
+					</button>
+				</form>
 
-	<div class='row'>
-		<div class='messageries col-4'>
-
-			<p>
-				<b>Bonjour, je suis
-					{{app.user.conseiller.prenom}}
-					votre conseiller.
-				</b>
-				<br>
-				Comment puis-je vous aider ?</p>
-			<form action="{{path('app_message')}}" method='GET'>
-				<button name='filter' type='submit' value='ongoing'>
-					En cours
-				</button>
-				<button name='filter' type='submit' value='done'>
-					Résolu
-				</button>
-				<button name='filter' type='submit' value='all'>
-					Tout
-				</button>
-			</form>
-
-			<ul>
-				{% if filter == 'all' or null %}
-					{% for messagerie in messageries|reverse %}
-						<li>
-							<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
-								<p>{{ messagerie.id }}-
-									<b>{{ messagerie.objet }}</b>
+				<ul>
+					{% if filter == 'all' or null %}
+						{% for messagerie in messageries|reverse %}
+							<li>
+								<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
+									<p>{{ messagerie.id }}-
+										<b>{{ messagerie.objet }}</b>
+									</p>
+								</a>
+								<p>
+									{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+									{# pour afficher le dernier message de la conversation #}
 								</p>
-							</a>
-							<p>
-								{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
-								{# pour afficher le dernier message de la conversation #}
-							</p>
-						</li>
+							</li>
+						{% else %}
+							<p colspan="7">Aucune messagerie</p>
+						{% endfor %}
 					{% else %}
-						<p colspan="7">Aucune messagerie</p>
-					{% endfor %}
-				{% else %}
-					{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == filter) %}
-						<li>
-							<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
-								<p>{{ messagerie.id }}-
-									<b>{{ messagerie.objet }}</b>
+						{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == filter) %}
+							<li>
+								<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
+									<p>{{ messagerie.id }}-
+										<b>{{ messagerie.objet }}</b>
+									</p>
+								</a>
+								<p>
+									{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+									{# pour afficher le dernier message de la conversation #}
 								</p>
-							</a>
-							<p>
-								{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
-								{# pour afficher le dernier message de la conversation #}
-							</p>
-						</li>
-					{% else %}
-						<p colspan="7">Aucune messagerie</p>
-					{% endfor %}
-				{% endif %}
-			</ul>
-			
-		</div>
+							</li>
+						{% else %}
+							<p colspan="7">Aucune messagerie</p>
+						{% endfor %}
+					{% endif %}
+				</ul>
 
-		<div class='col-8 '>
-			<a href='{{path('app_message')}}'>
-				<button class='big-button'>Nouveau ticket</button>
-			</a>
-			<div class='view-container'>
-				<h2 class='mb-4'>{{currentMessageries.objet}}</h2>
-				<div class='scroll-box'>
-					<p>{{messages[0].contenu}}</p>
-					<hr>
-					{% for message in messages|slice(1) %}
-						<div
-							class='bubble {% if app.user.id == message.author.id %} user-bubble {% endif %}'>
-							{# Si le l'autheur.id est le même que le app.user.id > alors je lui donne la classe .. #}
-							<p class=' {% if app.user.id == message.author.id %} user-message {% endif %}'>
-								{{message.contenu}}
-							</p>
-						</div>
-					{% endfor %}
-				</div>
-				<form action="{{path('app_message_send',{id: currentMessageries.id})}}" method="POST" id='chat-action'>
-					<div class='row '>
-						<input type="text" name="message" placeholer='Message' required class='col-12' id='chat-input'>
-					</input>
-					{# <button type='submit' class='col-2'>Envoyer</button> #}
-				</div>
-			</form>
+			</div>
+
+			<div class='col-8 '>
+				<a href='{{path('app_message')}}'>
+					<button class='big-button'>Nouveau ticket</button>
+				</a>
+				<div class='view-container'>
+					<h2 class='mb-4'>{{currentMessageries.objet}}</h2>
+					<div class='scroll-box'>
+						<p>{{messages[0].contenu}}</p>
+						<hr>
+						{% for message in messages|slice(1) %}
+							<div
+								class='bubble {% if app.user.id == message.author.id %} user-bubble {% endif %}'>
+								{# Si le l'autheur.id est le même que le app.user.id > alors je lui donne la classe .. #}
+								<p class=' {% if app.user.id == message.author.id %} user-message {% endif %}'>
+									{{message.contenu}}
+								</p>
+							</div>
+						{% endfor %}
+					</div>
+					<form action="{{path('app_message_send',{id: currentMessageries.id})}}" method="POST" id='chat-action'>
+						<div class='row '>
+							<input type="text" name="message" placeholer='Message' required class='col-12' id='chat-input'>
+						</input>
+						{# <button type='submit' class='col-2'>Envoyer</button> #}
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+{% endblock %}

@@ -5,6 +5,9 @@
 
 {% block body %}
 	<style>
+		body {
+			padding-top: 1em;
+		}
 		form {
 			display: flex;
 			flex-direction: column;
@@ -31,17 +34,16 @@
 			border-radius: 5px;
 			border: none;
 			color: white;
+			background-color: var(--primary-color);
 
 			margin: 1em auto;
-
-			background-color: blue;
 		}
 		#submit-btn:hover {
-			background-color: blue;
+			background-color: var(--primary-color);
 		}
 	</style>
 
-	<div>
+	<div class='container'>
 		<h1>
 			Nous contacter
 		</h1>

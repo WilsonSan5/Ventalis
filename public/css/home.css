@@ -68,7 +68,22 @@ video {
 
 .categorie-section {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     gap: 1em;
+}
+
+
+/* ---------------Présentation entreprise ------------------*/
+.item {
+    flex-basis: 33%;
+}
+
+.item p {
+    text-align: center;
+}
+
+.icon {
+    width: 80px;
+    color: rgb(0, 160, 150)
 }
