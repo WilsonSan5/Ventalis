@@ -19,6 +19,10 @@ h2 {
 
 .description {
 	color: grey;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-height: 150px;
 }
 
 .programme {

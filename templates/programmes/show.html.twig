@@ -6,9 +6,9 @@
 {% block body %}
 <link rel='stylesheet' type='text/css' href='/css/programme_show.css'>
 <div class='row'>
-	<div class='col-6 col-lg-8 image-container'>
+	<div class='col-12 col-xl-7 image-container'>
 		<img src='{{produit.image}}' alt=' image de {{produit.title}}'></div>
-	<div class='col-6 col-lg-4'>
+	<div class='col-12 col-xl-5'>
 		<div class='content-container'>
 			<h2>{{produit.pays}}</h2>
 			<h1>{{produit.title}}</h1>
@@ -31,7 +31,7 @@
 							<select name="planning" id='planning'>
 								{% for planning in produit.planning|filter(planning => planning.quantite > 0) %}
 									{# Affiche uniquement les plannings qui ont encore au moins 1 place restante #}
-									<option value="{{planning.id}}" data-rc="{{planning.prix}}">{{planning.DateDepart|date("d/m/Y") }}
+									<option value="{{planning.id}}" data-rc="{{planning.prix}}" data-quantite='{{planning.quantite}}'>{{planning.DateDepart|date("d/m/Y") }}
 										au
 										{{planning.DateFin|date("d/m/Y")}}
 										-
@@ -56,12 +56,6 @@
 								</svg>
 							</label>
 							<select name="quantite" id='quantite'>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
 							</select>
 						</div>
 					</div>
@@ -88,23 +82,44 @@ var selectionPlanning = document.getElementById("planning");
 var selectionQuantite = document.getElementById("quantite");
 
 var planningPrix = selectionPlanning.getElementsByTagName('option')[0].dataset.rc; // on récupère le prix de la 1ère option, Cela va être notre prix par défaut.
-var quantite = selectionQuantite.getElementsByTagName('option')[0].value;
+var quantite = 1
 
 var prixTotal = planningPrix * quantite;
 var twigTotal = document.getElementById('prix-total');
-console.log(twigTotal.innerHTML);
+
 twigTotal.innerHTML = prixTotal;
+planningQuantite = selectionPlanning.getElementsByTagName('option')[0].dataset.quantite
+updateSelectionQuantite(planningQuantite)
 
 selectionPlanning.onchange = function (event) {
+quantite = 1
 planningPrix = event.target.options[event.target.selectedIndex].dataset.rc;
 prixTotal = planningPrix * quantite;
 twigTotal.innerHTML = prixTotal;
+planningQuantite = event.target.options[event.target.selectedIndex].dataset.quantite
+updateSelectionQuantite(planningQuantite)
 };
 
 selectionQuantite.onchange = function (event) {
 quantite = event.target.options[event.target.selectedIndex].value;
 prixTotal = planningPrix * quantite;
 twigTotal.innerHTML = prixTotal;
+
 };
+
+console.log(planningQuantite)
+
+function updateSelectionQuantite(quantite){
+	while(selectionQuantite.lastChild) {
+  selectionQuantite.lastChild.remove();//removee the last child of "selectionQuantite" et éviter les doublons
+}
+		for (let i = 1; i <= quantite && i <= 6; i++){
+			var option = document.createElement('option')
+			option.innerHTML = i
+			option.setAttribute('value',i)
+			selectionQuantite.appendChild(option)
+			console.log(option)
+		}
+}
 
 </script {% endblock %}
