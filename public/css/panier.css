@@ -38,3 +38,9 @@
 			background-color: var(--primary-color);
 			width: 100%;
 		}
+
+		@media screen and (max-width:800px) {
+			.total-panier {
+				display: none;
+			}
+		}

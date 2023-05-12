@@ -5,6 +5,7 @@ body {
 	padding: 2em;
 }
 
+
 * {
 	/* box-shadow: 0px 0px 1px red; */
 }
@@ -19,7 +20,7 @@ h2 {
 
 .description {
 	color: grey;
-	white-space:nowrap;
+	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	max-height: 150px;
@@ -50,7 +51,9 @@ h2 {
 	padding: 2em;
 }
 
-
+#planning-option {
+	flex-basis: 90%;
+}
 
 form input {
 	margin: 1em 1em;
@@ -91,4 +94,22 @@ label {
 	margin-right: auto;
 	font-size: 1em;
 	align-self: center;
+}
+
+@media screen and (max-width:800px) {
+	body {
+		padding: 0;
+	}
+
+	#planning-option {
+		flex-basis: 100%;
+	}
+
+	.field-row {
+		flex-wrap: wrap;
+	}
+
+	form input {
+		margin: 0;
+	}
 }

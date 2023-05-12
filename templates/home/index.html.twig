@@ -6,7 +6,12 @@
 {% block body %}
 	<link rel='stylesheet' type='text/css' href="/css/home.css">
 	<div class="hero-banner">
-		<h1>Laissez-vous emporter !</h1>
+		<h1>Laissez-vous emporter vers votre
+			<br>destination de rêve&nbsp;!<br>
+			<button id='main-cta' onclick="location.href='{{path('app_programmes')}}';">
+				Voir les destinations
+			</button>
+		</h1>
 		<video autoplay='autoplay' muted loop>
 			<source src='/images/video/hero-banner-video.mp4'>
 		</video>

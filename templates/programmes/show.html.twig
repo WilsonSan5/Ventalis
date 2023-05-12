@@ -24,7 +24,7 @@
 			{% if produit.planning|length > 0 %}
 				<form method="GET" action="{{ path('app_programmes_addCart', {'id': produit.id}) }}">
 					<div class='field-row'>
-						<div class='field' style='flex-basis:80%'>
+						<div class='field' id='planning-option'>
 							<label name='planning'>
 								<b>Dates</b>
 							</label>
@@ -34,9 +34,7 @@
 									<option value="{{planning.id}}" data-rc="{{planning.prix}}" data-quantite='{{planning.quantite}}'>{{planning.DateDepart|date("d/m/Y") }}
 										au
 										{{planning.DateFin|date("d/m/Y")}}
-										-
-										<span id='prix'>{{planning.prix | number_format(0,',',' ')}}</span>
-										€ (
+										(
 										{% if planning.quantite > 1 %}
 											{{planning.quantite}}
 											places restantes
@@ -55,15 +53,15 @@
 									<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
 								</svg>
 							</label>
-							<select name="quantite" id='quantite'>
-							</select>
+							<select name="quantite" id='quantite'></select>
 						</div>
 					</div>
 					<div class='field-row'>
 						<p class='prix-total'>Total :
 							<b style='font-size:2em;color:black'>
-								<span id='prix-total'>{{produit.prixDefaut}}</span>
-								€</b>
+								<span id='prix-total'>{{produit.prixDefaut}}&nbsp;</span>
+
+								&nbsp;€</b>
 						</p>
 						<input type="submit" value="Ajouter au panier">
 					</div>
@@ -82,22 +80,22 @@ var selectionPlanning = document.getElementById("planning");
 var selectionQuantite = document.getElementById("quantite");
 
 var planningPrix = selectionPlanning.getElementsByTagName('option')[0].dataset.rc; // on récupère le prix de la 1ère option, Cela va être notre prix par défaut.
-var quantite = 1
+var quantite = 1;
 
 var prixTotal = planningPrix * quantite;
 var twigTotal = document.getElementById('prix-total');
 
 twigTotal.innerHTML = prixTotal;
-planningQuantite = selectionPlanning.getElementsByTagName('option')[0].dataset.quantite
-updateSelectionQuantite(planningQuantite)
+planningQuantite = selectionPlanning.getElementsByTagName('option')[0].dataset.quantite;
+updateSelectionQuantite(planningQuantite);
 
 selectionPlanning.onchange = function (event) {
-quantite = 1
+quantite = 1;
 planningPrix = event.target.options[event.target.selectedIndex].dataset.rc;
 prixTotal = planningPrix * quantite;
 twigTotal.innerHTML = prixTotal;
-planningQuantite = event.target.options[event.target.selectedIndex].dataset.quantite
-updateSelectionQuantite(planningQuantite)
+planningQuantite = event.target.options[event.target.selectedIndex].dataset.quantite;
+updateSelectionQuantite(planningQuantite);
 };
 
 selectionQuantite.onchange = function (event) {
@@ -107,19 +105,19 @@ twigTotal.innerHTML = prixTotal;
 
 };
 
-console.log(planningQuantite)
+console.log(planningQuantite);
 
-function updateSelectionQuantite(quantite){
-	while(selectionQuantite.lastChild) {
-  selectionQuantite.lastChild.remove();//removee the last child of "selectionQuantite" et éviter les doublons
+function updateSelectionQuantite(quantite) {
+while (selectionQuantite.lastChild) {
+selectionQuantite.lastChild.remove(); // removee the last child of "selectionQuantite" et éviter les doublons
 }
-		for (let i = 1; i <= quantite && i <= 6; i++){
-			var option = document.createElement('option')
-			option.innerHTML = i
-			option.setAttribute('value',i)
-			selectionQuantite.appendChild(option)
-			console.log(option)
-		}
+for (let i = 1; i <= quantite && i <= 6; i = i + 1) {
+var option = document.createElement('option');
+option.innerHTML = i;
+option.setAttribute('value', i);
+selectionQuantite.appendChild(option);
+console.log(option);
+}
 }
 
 </script {% endblock %}

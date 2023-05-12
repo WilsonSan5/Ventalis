@@ -20,7 +20,6 @@ a {
 .nav-link {
     padding: 0.5em 1em;
     border-radius: 5px;
-
 }
 
 .nav-link:hover {
@@ -101,4 +100,16 @@ form input {
     height: 100%;
     width: 105%;
     object-fit: cover;
+}
+
+@media screen and (max-width:800px) {
+    .image-container {
+        display: none;
+    }
+
+    .mini-nav {
+        top: 1em;
+        right: 0.5em;
+    }
+
 }

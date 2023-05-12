@@ -35,10 +35,25 @@ video {
 .hero-banner h1 {
     font-size: 3em;
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 10%;
-    color: white;
     z-index: 1;
+
+    color: white;
+    font-weight: 600;
+    text-shadow: 0px 0px 5px rgb(0, 0, 0);
+}
+
+#main-cta {
+    z-index: 1;
+    margin-top: 2em;
+
+    font-size: 0.4em;
+    padding: 1em 2em;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    background: rgb(206, 146, 5);
 }
 
 @media (min-width: 1600px) {
@@ -50,11 +65,14 @@ video {
 #presentation-section {
     margin: 2em 0em;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     gap: 2em;
 }
 
 #presentation-section div {
+    max-width: 300px;
+    min-width: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,6 +91,15 @@ video {
     gap: 1em;
 }
 
+@media screen and (max-width:800px) {
+    .categorie-section {
+        flex-wrap: wrap;
+    }
+
+    .hero-banner h1 {
+        left: 5%;
+    }
+}
 
 /* ---------------Présentation entreprise ------------------*/
 .item {
