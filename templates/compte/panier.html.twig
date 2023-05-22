@@ -9,7 +9,7 @@
 
 	<div class='container'>
 		<div class='row'>
-			<div class='col-12'>
+			<div class='col-12 col-sm-8 col-xl-9'>
 				<h1>Mon panier</h1>
 				{% for achat in produitsInCart %}
 					{% include '/compte/_cart-card.html.twig' %}
@@ -20,7 +20,7 @@
 				{% endfor %}
 			</div>
 			{% if produitsInCart|length > 0 %}
-				<div class='col-3 total-panier'>
+				<div class='col-4 col-xl-3 total-panier'>
 					<h2>Total panier :
 						<b>{{totalPanier|number_format(0,',', ' ')}}€</b>
 					</h2>
@@ -33,5 +33,6 @@
 			{% endif %}
 		</div>
 		<button type='button' onclick="location.href='{{path('app_programmes')}}';">Continuer mes achats</button>
+		<button type='button' onclick="location.href='{{path('app_panier_payment')}}';" id='btn-paiement'>Passer la commande</button>
 	</div>
 {% endblock %}
