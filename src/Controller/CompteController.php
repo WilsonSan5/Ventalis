@@ -47,6 +47,7 @@ class CompteController extends AbstractController
     #[Route('/panier', name: 'app_compte_panier')]
     public function panier(AchatRepository $achatRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
         $produitsInCart = $achatRepository->findBy(['user' => $this->getUser(), 'status' => 'inCart']);
         $totalPanier = 0;

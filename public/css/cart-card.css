@@ -37,4 +37,8 @@
         padding-left: 0em;
         border: none;
     }
+
+    .title-text {
+        margin: 0;
+    }
 }

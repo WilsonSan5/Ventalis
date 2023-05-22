@@ -54,6 +54,14 @@ video {
     border: none;
     color: white;
     background: rgb(206, 146, 5);
+
+    transition: 0.2s;
+
+}
+
+#main-cta:hover {
+    background: rgb(232, 178, 53);
+    box-shadow: 0px 0px 20px rgb(255, 232, 149);
 }
 
 @media (min-width: 1600px) {
