@@ -1,10 +1,13 @@
 .cart-items {
     margin-bottom: 1em;
+
+    max-height: 250px;
     border-radius: 20px;
     border: none;
     box-shadow: 0px 0px 10px rgb(180, 180, 180);
     overflow: hidden;
 }
+
 
 .image-container img {
     cursor: pointer;

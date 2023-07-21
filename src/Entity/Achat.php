@@ -5,32 +5,49 @@ namespace App\Entity;
 use App\Repository\AchatRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AchatRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
+)]
 class Achat
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read', 'write'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'achats')]
+    #[Groups(['read', 'write'])]
     private ?Produit $produit = null;
 
     #[ORM\ManyToOne(inversedBy: 'achats')]
+    #[Groups(['read', 'write'])]
+
     private ?Planning $planning = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?int $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'achat')]
+    #[Groups(['read', 'write'])]
+
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read', 'write'])]
     private ?\DateTimeInterface $dateAchat = null;
 
     #[ORM\Column]
+    #[Groups(['read', 'write'])]
     private ?int $quantite = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
