@@ -9,14 +9,16 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
 
-
+#[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']],
+    operations: [
+        new Get()
+    ]
 )]
-#[ORM\Entity(repositoryClass: ProduitRepository::class)]
-#[ApiResource]
+
 class Produit
 {
     #[ORM\Id]
@@ -29,7 +31,7 @@ class Produit
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['read', 'write'])]
+
     private ?string $introduction = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

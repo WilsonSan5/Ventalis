@@ -13,8 +13,9 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read'], 'force_eager' => true],
     denormalizationContext: ['groups' => ['write']],
+
 )]
 class Message
 {
@@ -24,6 +25,7 @@ class Message
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[Groups(['read', 'write'])]
     private ?Messagerie $Messagerie = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

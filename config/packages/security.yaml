@@ -39,7 +39,7 @@ security:
                 path: app_logout
             json_login:
                 check_path: /api/login_check
-                username_path: email # Remplacez ceci par le nom du champ utilisé pour l'identifiant de l'utilisateur
+                username_path: username # Remplacez ceci par le nom du champ utilisé pour l'identifiant de l'utilisateur
                 password_path: security.credentials.password # Remplacez ceci par le nom du champ utilisé pour le mot de passe de l'utilisateur
 
     role_hierarchy:
