@@ -4,6 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use App\Repository\MessagerieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +21,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
 )]
+
 #[ApiFilter(PropertyFilter::class)]
+#[ApiFilter(SearchFilter::class, strategy: 'exact')]
 
 #[ORM\Entity(repositoryClass: MessagerieRepository::class)]
 class Messagerie
@@ -25,7 +31,7 @@ class Messagerie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
+    #[Groups(['read'])]
     private ?int $id = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'messageries')]

@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
@@ -24,6 +25,7 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection()
     ]
 )]
+#[ApiFilter(PropertyFilter::class)]
 
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -31,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read'])]
+    #[Groups(['read', 'user_id:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -68,11 +70,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $matricule = null;
 
     #[ORM\ManyToMany(targetEntity: Messagerie::class, mappedBy: 'User')]
+    #[Groups(['read'])]
 
     private Collection $messageries;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Message::class)]
+
     private Collection $messages;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class)]
+    private Collection $message_received;
+
+
 
 
 
@@ -81,6 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->achat = new ArrayCollection();
         $this->messageries = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->message_received = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -306,5 +316,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessageReceived(): Collection
+    {
+        return $this->message_received;
+    }
 
+    public function addMessageReceived(Message $messageReceived): self
+    {
+        if (!$this->message_received->contains($messageReceived)) {
+            $this->message_received->add($messageReceived);
+            $messageReceived->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageReceived(Message $messageReceived): self
+    {
+        if ($this->message_received->removeElement($messageReceived)) {
+            // set the owning side to null (unless already changed)
+            if ($messageReceived->getRecipient() === $this) {
+                $messageReceived->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
 }
