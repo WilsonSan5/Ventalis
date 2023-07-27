@@ -18,8 +18,8 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['user:read']],
+    denormalizationContext: ['groups' => ['user:write']],
     operations: [
         new Get(),
         new GetCollection()
@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read', 'user_id:read'])]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -49,11 +49,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['user:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['read'])]
+    #[Groups(['user:read'])]
     private ?string $prenom = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Achat::class)]
@@ -70,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $matricule = null;
 
     #[ORM\ManyToMany(targetEntity: Messagerie::class, mappedBy: 'User')]
-    #[Groups(['read'])]
+    #[Groups(['user:read'])]
 
     private Collection $messageries;
 

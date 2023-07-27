@@ -18,12 +18,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['messagerie:read']],
     denormalizationContext: ['groups' => ['write']],
 )]
 
 #[ApiFilter(PropertyFilter::class)]
 #[ApiFilter(SearchFilter::class, strategy: 'exact')]
+
 
 #[ORM\Entity(repositoryClass: MessagerieRepository::class)]
 class Messagerie
@@ -31,20 +32,16 @@ class Messagerie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read'])]
+    #[Groups(['user:read', 'messagerie:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'messageries')]
-
     private Collection $User;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read'])]
-
     private ?string $objet = null;
 
     #[ORM\OneToMany(mappedBy: 'Messagerie', targetEntity: Message::class)]
-    #[Groups(['read'])]
 
     private Collection $messages;
 
