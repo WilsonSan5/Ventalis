@@ -10,7 +10,7 @@ use App\Entity\Messagerie;
 use App\Entity\Message;
 use App\Repository\MessagerieRepository;
 use App\Repository\MessageRepository;
-
+use Symfony\Component\HttpFoundation\Request;
 
 class MessageController extends AbstractController
 {
@@ -18,14 +18,14 @@ class MessageController extends AbstractController
     public function index(MessageRepository $messageRepository, MessagerieRepository $messagerieRepository): Response
     {
         $user = $this->getUser();
-        if($this->getUser()->getRoles()[0] == "ROLE_EMP"){
+        if ($this->getUser()->getRoles()[0] == "ROLE_EMP") {
 
-          return  $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home');
         }
 
         $messageries = $user->getMessageries(); //tableau d'objet messagerie
 
-        if(isset($_GET['filter'])){
+        if (isset($_GET['filter'])) {
             $filter = $_GET['filter'];
         } else
             $filter = 'all';
@@ -54,7 +54,6 @@ class MessageController extends AbstractController
             $newMessagerie->setObjet($newObjet);
             $newMessagerie->addUser($this->getUser());
             $newMessagerie->addUser($this->getUser()->getConseiller());
-
 
             $newMessage->setAuthor($this->getUser());
             $newMessage->setContenu($newContenu);
@@ -114,4 +113,37 @@ class MessageController extends AbstractController
         ]);
     }
 
+    #[Route('/api/messageries/new', methods: ['POST'])]
+
+    public function createMessagerie(Request $request, MessagerieRepository $messagerieRepository)
+    {
+        // Obtenez les données du corps de la requête
+        $data = json_decode($request->getContent(), true);
+
+        // Créez une nouvelle entité Messagerie
+        $messagerie = new Messagerie();
+
+        // Persistez la messagerie dans le gestionnaire d'entités
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($messagerie);
+        $entityManager->flush();
+
+        // Obtenez les utilisateurs associés à la messagerie à partir des données de la requête
+        $userIds = $data['users']; // Remplacez 'users' par le nom du champ qui contient les ID des utilisateurs
+
+        // Ajoutez les utilisateurs associés à la messagerie
+        foreach ($userIds as $userId) {
+            $user = $entityManager->getRepository(User::class)->find($userId);
+            if ($user) {
+                $messagerie->addUser($user);
+            }
+        }
+
+        // Persistez à nouveau la messagerie pour enregistrer les relations avec les utilisateurs
+        $entityManager->persist($messagerie);
+        $entityManager->flush();
+
+        // Retournez une réponse avec les données de la messagerie nouvellement créée si nécessaire
+        return $this->json($messagerie);
+    }
 }

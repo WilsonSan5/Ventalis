@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['messagerie:read']],
+    normalizationContext: ['groups' => ['message:read']],
     denormalizationContext: ['groups' => ['write']],
 )]
 #[ApiFilter(PropertyFilter::class)]
@@ -29,18 +29,18 @@ class Message
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[Groups(['write'])]
+    #[Groups(['write', 'messagerie:write'])]
     private ?Messagerie $Messagerie = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['user:read', 'write'])]
+    #[Groups(['messagerie:read', 'write', 'user:read', 'messagerie:write'])]
     private ?string $contenu = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[Groups(['write'])]
+    #[Groups(['write', 'messagerie:read', 'messagerie:write'])]
     private ?User $author = null;
 
     #[ORM\Column(nullable: true)]

@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['messagerie:read']],
-    denormalizationContext: ['groups' => ['write']],
+    denormalizationContext: ['groups' => ['messagerie:write']],
 )]
 
 #[ApiFilter(PropertyFilter::class)]
@@ -36,12 +36,15 @@ class Messagerie
     private ?int $id = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'messageries')]
+    #[Groups(['messagerie:write'])]
     private Collection $User;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+
     private ?string $objet = null;
 
-    #[ORM\OneToMany(mappedBy: 'Messagerie', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'Messagerie', targetEntity: Message::class, cascade: ['persist'])]
+    #[Groups(['messagerie:read'])]
 
     private Collection $messages;
 
@@ -66,6 +69,7 @@ class Messagerie
     {
         return $this->User;
     }
+
 
     public function addUser(User $user): self
     {
