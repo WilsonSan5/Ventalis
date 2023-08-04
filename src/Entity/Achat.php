@@ -16,8 +16,8 @@ use ApiPlatform\Metadata\Get;
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     operations: [
-        new Get(normalizationContext: ['groups' => ['read']]),
-        new GetCollection()
+        new Get(normalizationContext: ['groups' => ['singleAchat:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['achats:read']])
     ]
 )]
 class Achat
@@ -25,33 +25,33 @@ class Achat
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'achats')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
     private ?Produit $produit = null;
 
     #[ORM\ManyToOne(inversedBy: 'achats')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
 
     private ?Planning $planning = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
     private ?int $prix = null;
 
     #[ORM\ManyToOne(inversedBy: 'achat')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
 
     private ?User $user = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
     private ?\DateTimeInterface $dateAchat = null;
 
     #[ORM\Column]
-    #[Groups(['read', 'write'])]
+    #[Groups(['singleAchat:read', 'achats:read'])]
     private ?int $quantite = null;
 
 

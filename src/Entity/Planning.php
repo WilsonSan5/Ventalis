@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlanningRepository::class)]
 class Planning
@@ -26,9 +27,11 @@ class Planning
     private Collection $achats;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['achats:read'])]
     private ?\DateTimeInterface $DateDepart = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['achats:read'])]
     private ?\DateTimeInterface $DateFin = null;
 
     #[ORM\Column]

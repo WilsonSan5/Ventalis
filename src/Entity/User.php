@@ -25,7 +25,7 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
         new GetCollection()
     ]
 )]
-#[ApiFilter(PropertyFilter::class)]
+
 
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -49,11 +49,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read'])]
     private ?string $prenom = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Achat::class)]
