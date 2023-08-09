@@ -41,6 +41,6 @@ class ApiLoginController extends AbstractController
         $token = $this->jwtManager->create($user);
 
         // Retourner le token JWT en réponse
-        return new Response(json_encode(['token' => $token, 'user_id' => $user->getId()]), Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return new Response(json_encode(['token' => $token]), Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 }
