@@ -41,7 +41,9 @@ security:
                 check_path: /api/login_check
                 username_path: username # Remplacez ceci par le nom du champ utilisé pour l'identifiant de l'utilisateur
                 password_path: security.credentials.password # Remplacez ceci par le nom du champ utilisé pour le mot de passe de l'utilisateur
-
+            access_token: 
+                token_handler: App\Security\ApiTokenHandler
+                
     role_hierarchy:
         ROLE_USER: [ROLE_DEFAULT]
         ROLE_EMP : ROLE_USER
