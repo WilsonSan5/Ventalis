@@ -13,6 +13,8 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -35,9 +37,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user:read', 'singleAchat:read', 'achats:read', 'messagerie:read'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private array $roles = [];
 
     /**
@@ -47,11 +51,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read'])]
+    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read', 'messagerie:read'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read'])]
+    #[Groups(['user:read', 'achats:read', 'singleAchat:read', 'achats:read', 'messagerie:read'])]
     private ?string $prenom = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Achat::class)]

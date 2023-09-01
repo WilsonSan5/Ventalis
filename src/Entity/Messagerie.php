@@ -36,7 +36,7 @@ class Messagerie
     private ?int $id = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'messageries')]
-    #[Groups(['messagerie:write'])]
+    #[Groups(['messagerie:write', 'messagerie:read'])]
     private Collection $User;
 
     #[ORM\Column(length: 255, nullable: true)]

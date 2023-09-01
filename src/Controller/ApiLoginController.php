@@ -40,14 +40,12 @@ class ApiLoginController extends AbstractController
         if (!$user || !$this->encoder->isPasswordValid($user, $password)) {
             return new Response('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
-
+        // Vérifier les roles de l'utilisateur 
+        if ($user->getRoles()[0] !== 'ROLE_EMP') {
+            return new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
+        }
         // Générer un token JWT
         $token = $this->jwtManager->create($user);
-
-        // Stocker le token dans le repository pour sécuriser les tokens
-        // $accessToken = new AccessToken;
-        // $accessToken->setToken($token);
-        // $this->accessTokenRepository->save($accessToken, true);
 
         // Retourner le token JWT en réponse
         return new Response(json_encode(['token' => $token]), Response::HTTP_OK, ['Content-Type' => 'application/json']);
