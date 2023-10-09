@@ -41,21 +41,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $this->getEntityManager()->flush();
         }
     }
-    public function findUserByRole($role){
+    public function findUserByRole($role)
+    {
         $qb = $this->createQueryBuilder('user');
-
         $qb
             ->andWhere($qb->expr()->like('user.roles', ':role'))
-            ->setParameter('role', '%'.$role.'%')
+            ->setParameter('role', '%' . $role . '%')
             ->orderBy('user.id', 'ASC');
-
         return $qb
             ->getQuery()
             ->getResult();
     }
 
     // public function getEmpWithLessUsers(User $userEntity){
-        
+
     //     $emp_id = $userEntity->findByExampleField('roles' = 'ROLE_EMP')
     //     $userEntity->findOneBySomeField('conseiller' => $emp_id)
     // }
@@ -74,7 +73,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-//    /**
+    //    /**
 //     * @return User[] Returns an array of User objects
 //     */
 //    public function findByExampleField($value): array
@@ -89,7 +88,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?User
+    //    public function findOneBySomeField($value): ?User
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')

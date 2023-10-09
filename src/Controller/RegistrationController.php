@@ -18,19 +18,16 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserRepository $userRepository, ValidatorInterface $validator): Response
     {
-
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         $user->setRoles(['ROLE_USER']);
-
         $errors = $validator->validate($user);
-
         // Attribution du conseiller ---------------------------------------------------------
         $allUsers = $userRepository->findBy(['matricule' => null]);
         $allConseillers = $userRepository->findUserByRole('ROLE_EMP'); // récupère dans un tableau tous les employés
         // Calcul du nombre d'utilisateur lié à chaque employé
-        $nbrOfUsers = 0; // C'est la valeur qu'on va stocké pour comparer à chaque boucle
+        $nbrOfUsers = 0; // C'est la valeur qu'on va stocker pour comparer à chaque boucle
         foreach ($allConseillers as $conseiller) { // On va boucler sur tout les conseillers
             $result = 0;
             foreach ($allUsers as $user2) { // On boucle sur tous les users, si son conseiller est celui de la boucle alors on compte +1
@@ -40,13 +37,10 @@ class RegistrationController extends AbstractController
             } // Une fois qu'on a le nombre d'utilisteur (result) on compare avec nbrOfUser.
             if ($result < $nbrOfUsers || $nbrOfUsers == 0) { // Si le résultat est plus petit, on le garde, sinon on passe au suivant.
                 $nbrOfUsers = $result;
-                $conseiller_id = $conseiller->getId(); // Si le résultat est plus petit, alors on récupère l'id du conseiller est on le stocke
+                $user->setConseiller($conseiller); // Si le résultat est plus petit, alors on récupère l'id du conseiller est on le stocke
             }
         }
-        $conseiller = $userRepository->findOneBy(['id' => $conseiller_id]); // On cherche le conseiller par son id
-        $user->setConseiller($conseiller);
         //  FIN Attribution du conseiller -------------------------------------------------------
-
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -60,10 +54,7 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-
         ;
-
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
             'errors' => $errors

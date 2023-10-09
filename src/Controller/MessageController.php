@@ -19,18 +19,13 @@ class MessageController extends AbstractController
     {
         $user = $this->getUser();
         if ($this->getUser()->getRoles()[0] == "ROLE_EMP") {
-
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home'); // Il faut rediriger vers l'intranet
         }
-
         $messageries = $user->getMessageries(); //tableau d'objet messagerie
-
         if (isset($_GET['filter'])) {
             $filter = $_GET['filter'];
         } else
             $filter = 'all';
-
-
         return $this->render('message/index.html.twig', [
             'messageries' => $messageries,
             'user' => $user,
@@ -43,7 +38,6 @@ class MessageController extends AbstractController
     {
         $user = $this->getUser();
         $messageries = $user->getMessageries();
-
         if ($_POST['objet'] && $_POST['message']) {
             $newObjet = $_POST['objet'];
             $newContenu = $_POST['message'];
@@ -69,7 +63,6 @@ class MessageController extends AbstractController
             'user' => $user
         ]);
     }
-
     #[Route('/message/{id}', name: 'app_message_show', methods: ['GET'])]
     public function show(Messagerie $messagerie): Response
     {
@@ -90,23 +83,18 @@ class MessageController extends AbstractController
             'filter' => $filter
         ]);
     }
-
     #[Route('/message/{id}/send', name: 'app_message_send', methods: ['POST'])]
     public function send(Messagerie $messagerie, MessageRepository $messageRepository, MessagerieRepository $messagerieRepository): Response
     {
         $messages = $messagerie->getMessages();
-
         if ($_POST['message']) {
             $newMessage = new Message;
             $newMessage->setContenu($_POST['message']);
             $newMessage->setAuthor($this->getUser());
             $newMessage->setMessagerie($messagerie);
-
             $messageRepository->save($newMessage, true);
-
             return $this->redirectToRoute('app_message_show', ['id' => $messagerie->getId()]);
         }
-
         return $this->render('message/show.html.twig', [
             'messagerie' => $messagerie,
             'messages' => $messages
@@ -119,10 +107,8 @@ class MessageController extends AbstractController
     {
         // Obtenez les données du corps de la requête
         $data = json_decode($request->getContent(), true);
-
         // Créez une nouvelle entité Messagerie
         $messagerie = new Messagerie();
-
         // Persistez la messagerie dans le gestionnaire d'entités
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($messagerie);
@@ -138,11 +124,9 @@ class MessageController extends AbstractController
                 $messagerie->addUser($user);
             }
         }
-
         // Persistez à nouveau la messagerie pour enregistrer les relations avec les utilisateurs
         $entityManager->persist($messagerie);
         $entityManager->flush();
-
         // Retournez une réponse avec les données de la messagerie nouvellement créée si nécessaire
         return $this->json($messagerie);
     }

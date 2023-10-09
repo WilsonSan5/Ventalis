@@ -11,8 +11,8 @@
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
-        "doctrine/orm": "^2.14",
-        "lexik/jwt-authentication-bundle": "^2.18",
+        "doctrine/orm": "2.14",
+        "lexik/jwt-authentication-bundle": "^2.19",
         "nelmio/cors-bundle": "^2.3",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.16",
@@ -97,14 +97,14 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9.6",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",
         "symfony/debug-bundle": "6.3.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.2",
         "symfony/stopwatch": "6.3.*",
-        "symfony/web-profiler-bundle": "6.3.*"
+        "symfony/web-profiler-bundle": "6.3.*",
+        "zenstruck/foundry": "^1.35"
     }
 }

@@ -61,8 +61,8 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        # - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: ROLE_EMP }
+        - { path: ^/api/login, roles: ROLE_EMP }
+        - { path: ^/api, roles: ROLE_EMP}
 
 when@test:
     security:

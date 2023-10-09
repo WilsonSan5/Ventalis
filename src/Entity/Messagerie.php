@@ -18,12 +18,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['messagerie:read']],
-    denormalizationContext: ['groups' => ['messagerie:write']],
+    // normalizationContext: ['groups' => ['messagerie:read']],
+    // denormalizationContext: ['groups' => ['messagerie:write']],
 )]
 
-#[ApiFilter(PropertyFilter::class)]
-#[ApiFilter(SearchFilter::class, strategy: 'exact')]
+// #[ApiFilter(PropertyFilter::class)]
+// #[ApiFilter(SearchFilter::class, strategy: 'exact')]
 
 
 #[ORM\Entity(repositoryClass: MessagerieRepository::class)]

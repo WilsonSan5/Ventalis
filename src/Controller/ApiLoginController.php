@@ -28,24 +28,25 @@ class ApiLoginController extends AbstractController
     #[Route('/api/login', name: 'app_api_login')]
     public function login(Request $request, UserRepository $userRepository): Response
     {
-        $token = $this->jwtManager->create($this->getUser());
-        dump($token);
+        // Extraire les data de la requête
         $data = json_decode($request->getContent(), true);
         $username = $data['username'];
         $password = $data['security']['credentials']['password'];
 
-        // Rechercher l'utilisateur en fonction du nom d'utilisateur (ou de tout autre critère de recherche)
+        // Recherche de l'utilisateur en fonction du nom d'utilisateur (ou de tout autre critère de recherche)
         $user = $userRepository->findOneBy(['email' => $username]);
 
+        // Vérification des roles de l'utilisateur 
+        if ($user->getRoles()[0] !== 'ROLE_EMP' || $user->getRoles()[0] !== 'ROLE_ADMIN') {
+            return new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
+        }
+        // Vérification que le mdp est bon
         if (!$user || !$this->encoder->isPasswordValid($user, $password)) {
             return new Response('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
-        // Vérifier les roles de l'utilisateur 
-        if ($user->getRoles()[0] !== 'ROLE_EMP') {
-            return new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
-        }
         // Générer un token JWT
-        $token = $this->jwtManager->create($user);
+        $token = $this->jwtManager->create($this->getUser());
+        dump($token);
 
         // Retourner le token JWT en réponse
         return new Response(json_encode(['token' => $token]), Response::HTTP_OK, ['Content-Type' => 'application/json']);

@@ -21,19 +21,21 @@
 		<div class='form-container px-4 col-12 col-md-6'>
 			{{ form_start(registrationForm) }}
 			<h2>S'inscrire</h2>
-
-
 			{% if form_errors(registrationForm.plainPassword)  %}
 				<span class='alert alert-warning'>{{form_errors(registrationForm.plainPassword)}}</span>
 			{% endif %}
-
+			{% if form_errors(registrationForm.email)  %}
+				<span class='alert alert-warning'>{{form_errors(registrationForm.email)}}</span>
+			{% endif %}
 			{{ form_widget(registrationForm.email) }}
 			{{ form_widget(registrationForm.nom) }}
 			{{ form_widget(registrationForm.prenom,
     {label: 'Prénom'}) }}
 			{{ form_widget(registrationForm.plainPassword, {
-            label: 'Mot de passe'
-        }) }}
+				label: 'Mot de passe'
+				})}}
+			{# {{ form_widget(registrationForm.plainPassword.first) }}
+																																			{{ form_widget(registrationForm.plainPassword.second) }} #}
 			{{ form_row(registrationForm.agreeTerms) }}
 			<div>
 				<p style='font-size:1.2em;color:var(--primary-color);font-weight:500'>
@@ -45,8 +47,6 @@
 				<a href='{{path('app_login')}}'>
 					Connectez vous !</a>
 			</p>
-
-
 			{{ form_end(registrationForm) }}
 		</div>
 	</div>

@@ -25,14 +25,12 @@ class ApiTokenHandler implements AccessTokenHandlerInterface
     {
         try {
             $payload = $this->jwtManager->parse($accessToken);
-
         } catch (JWTDecodeFailureException $e) {
             throw new BadCredentialsException('Invalid credentials.');
         }
-        // Extraire l'ID de l'utilisateur
+        // Récupération l'ID de l'utilisateur
         $userId = $payload['id'];
-
-        // Recherchez l'utilisateur en utilisant le repository
+        // Recherche de l'utilisateur en utilisant le repository
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
             throw new BadCredentialsException('Utilisateur introuvable');

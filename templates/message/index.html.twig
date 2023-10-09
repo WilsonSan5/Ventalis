@@ -17,9 +17,7 @@
 						</b>
 						<br>
 						Comment puis-je vous aider ?</p>
-
 				{% endif %}
-
 				<form action="{{path('app_message')}}" method='GET'>
 					<button name='filter' type='submit' value='ongoing'>
 						En cours
@@ -31,7 +29,6 @@
 						Tout
 					</button>
 				</form>
-
 				<ul>
 					{% if filter == 'all' or null %}
 						{% for messagerie in messageries|reverse %}
@@ -41,8 +38,7 @@
 										<b>{{ messagerie.objet }}</b>
 									</p>
 								</a>
-								<p>
-									{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
+								<p>{{ messagerie.messages[messagerie.messages|length -1 ].contenu }}
 									{# pour afficher le dernier message de la conversation #}
 								</p>
 							</li>
@@ -50,7 +46,7 @@
 							<p colspan="7">Aucune messagerie</p>
 						{% endfor %}
 					{% elseif filter == 'ongoing' %}
-						{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == null or filter) %}
+						{% for messagerie in messageries|reverse|filter(messagerie => messagerie.statut == filter) %}
 							<li>
 								<a href='{{path('app_message_show',{id : messagerie.id} )}}'>
 									<p>{{ messagerie.id }}-

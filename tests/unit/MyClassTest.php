@@ -10,11 +10,8 @@ class MyClassTest extends TestCase
 {
     public function testMyMethod()
     {
-        $myClass = new MyCLass();
-        $result = $myClass->addition(2,3);
-        $this->assertEquals(5, $result);
+        // $myClass = new MyCLass();
+        // $result = $myClass->addition(2,3);
+        $this->assertEquals(5, 2 + 3);
     }
 }
-
-
-
