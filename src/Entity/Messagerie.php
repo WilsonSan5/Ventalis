@@ -21,10 +21,8 @@ use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 #[ApiResource(
     normalizationContext: ['groups' => ['messagerie:read']],
     denormalizationContext: ['groups' => ['messagerie:write']],
-    operations: [
-        new GetCollection(normalizationContext: ['groups' => ['messagerie:read']])
-    ]
 )]
+
 #[ApiFilter(PropertyFilter::class)]
 #[ApiFilter(SearchFilter::class, strategy: 'exact')]
 #[ApiFilter(ExistsFilter::class, properties: ['objet'])]
