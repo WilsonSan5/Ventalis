@@ -37,7 +37,7 @@ class ApiLoginController extends AbstractController
         $user = $userRepository->findOneBy(['email' => $username]);
 
         // Vérification des roles de l'utilisateur 
-        if ($user->getRoles()[0] !== 'ROLE_EMP' || $user->getRoles()[0] !== 'ROLE_ADMIN') {
+        if (!$user || (!$user->getRoles() || (!in_array('ROLE_EMP', $user->getRoles()) && !in_array('ROLE_ADMIN', $user->getRoles())))) {
             return new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
         }
         // Vérification que le mdp est bon
@@ -45,7 +45,7 @@ class ApiLoginController extends AbstractController
             return new Response('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
         // Générer un token JWT
-        $token = $this->jwtManager->create($this->getUser());
+        $token = $this->jwtManager->create($user);
         dump($token);
 
         // Retourner le token JWT en réponse
