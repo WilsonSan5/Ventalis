@@ -15,16 +15,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\ExistsFilter;
 
 
 #[ApiResource(
-    // normalizationContext: ['groups' => ['messagerie:read']],
-    // denormalizationContext: ['groups' => ['messagerie:write']],
+    normalizationContext: ['groups' => ['messagerie:read']],
+    denormalizationContext: ['groups' => ['messagerie:write']],
+    operations: [
+        new GetCollection(normalizationContext: ['groups' => ['messagerie:read']])
+    ]
 )]
-
-// #[ApiFilter(PropertyFilter::class)]
-// #[ApiFilter(SearchFilter::class, strategy: 'exact')]
-
+#[ApiFilter(PropertyFilter::class)]
+#[ApiFilter(SearchFilter::class, strategy: 'exact')]
+#[ApiFilter(ExistsFilter::class, properties: ['objet'])]
 
 #[ORM\Entity(repositoryClass: MessagerieRepository::class)]
 class Messagerie
@@ -40,6 +43,7 @@ class Messagerie
     private Collection $User;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['messagerie:read'])]
 
     private ?string $objet = null;
 
