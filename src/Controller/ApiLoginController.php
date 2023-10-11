@@ -45,8 +45,7 @@ class ApiLoginController extends AbstractController
             return new Response('Invalid credentials', Response::HTTP_UNAUTHORIZED);
         }
         // Générer un token JWT
-        $token = $this->jwtManager->create($user);
-        dump($token);
+        $token = $this->jwtManager->create($this->getUser());
 
         // Retourner le token JWT en réponse
         return new Response(json_encode(['token' => $token]), Response::HTTP_OK, ['Content-Type' => 'application/json']);
