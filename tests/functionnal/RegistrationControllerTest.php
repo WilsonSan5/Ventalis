@@ -3,11 +3,6 @@
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Response;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 
 class RegistrationControllerTest extends WebTestCase
@@ -62,7 +57,16 @@ class RegistrationControllerTest extends WebTestCase
     public function testAlreadyUsedEmail()
     {
         $client = static::createClient();
+        // Ajout du nouvel utilisateur
+        $doctrine = $client->getContainer()->get('doctrine');
+        $userRepository = $doctrine->getRepository(User::class);
+        $newUser = new User;
+        $newUser->setEmail('alreadyUsedEmail@test.com')->setPassword('randomPassword');
+        $userRepository->save($newUser, true);
 
+        // Load the registration page
+        $crawler = $client->request('GET', '/register'); // Replace with the URL of your registration page
+        // Fill out the registration form with test user data
         // Load the registration page
         $crawler = $client->request('GET', '/register'); // Replace with the URL of your registration page
         // Fill out the registration form with test user data
@@ -79,5 +83,11 @@ class RegistrationControllerTest extends WebTestCase
         $client->submit($form);
         // Il doit y avoir une alerte
         $this->assertSelectorExists('.alert');
+
+        // Supression du nouvel utilisateur
+        $doctrine = $client->getContainer()->get('doctrine');
+        $userRepository = $doctrine->getRepository(User::class);
+        $newUser = $userRepository->findBy(['email' => 'alreadyUsedEmail@test.com']);
+        $userRepository->remove($newUser[0], true);
     }
 }
