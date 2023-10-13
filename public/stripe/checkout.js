@@ -74,7 +74,7 @@ async function initialize() {
   });
 
   try {
-    const elements = stripe.elements({
+    elements = stripe.elements({
       clientSecret, // Utilisez clientSecret ici pour initialiser les éléments Stripe
     });
 
@@ -91,6 +91,7 @@ async function initialize() {
     console.error('Erreur lors de l\'initialisation des éléments Stripe: ', error);
   }
 }
+
 async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
