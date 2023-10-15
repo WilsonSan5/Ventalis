@@ -77,15 +77,12 @@ class RegistrationControllerTest extends WebTestCase
         ]);
         // Submit the form
         $client->submit($form);
-        // Il doit y avoir une alerte
-
 
         // Supression du nouvel utilisateur
         $doctrine = $client->getContainer()->get('doctrine');
         $userRepository = $doctrine->getRepository(User::class);
         $newUser = $userRepository->findBy(['email' => 'alreadyUsedEmail@test.com']);
         $userRepository->remove($newUser[0], true);
-
 
         // Il doit y avoir une alerte
         $this->assertSelectorExists('.alert');
