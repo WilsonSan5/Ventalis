@@ -23,14 +23,15 @@ class RegistrationControllerTest extends WebTestCase
         ]);
 
         $client->submit($form);
-        // S'il n'y a pas de d'alerte alors le test est valide
-        $this->assertSelectorNotExists('.alert');
 
         // Supression du nouvel utilisateur
         $doctrine = $client->getContainer()->get('doctrine');
         $userRepository = $doctrine->getRepository(User::class);
         $newUser = $userRepository->findBy(['email' => 'randomUser@test.com']);
         $userRepository->remove($newUser[0], true);
+
+        // S'il n'y a pas de d'alerte alors le test est valide
+        $this->assertSelectorNotExists('.alert');
     }
     public function testWeakPassword()
     {
@@ -67,7 +68,7 @@ class RegistrationControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/register');
         // Fill out the registration form with test user data
         $form = $crawler->selectButton('Je crée un compte')->form([
-            'registration_form[email]' => 'user11@gmail.com',
+            'registration_form[email]' => 'alreadyUsedEmail@test.com',
             // Ajout d'un mail déjà existant
             'registration_form[nom]' => 'Test',
             'registration_form[prenom]' => 'Test',
@@ -77,12 +78,16 @@ class RegistrationControllerTest extends WebTestCase
         // Submit the form
         $client->submit($form);
         // Il doit y avoir une alerte
-        $this->assertSelectorExists('.alert');
+
 
         // Supression du nouvel utilisateur
         $doctrine = $client->getContainer()->get('doctrine');
         $userRepository = $doctrine->getRepository(User::class);
         $newUser = $userRepository->findBy(['email' => 'alreadyUsedEmail@test.com']);
         $userRepository->remove($newUser[0], true);
+
+
+        // Il doit y avoir une alerte
+        $this->assertSelectorExists('.alert');
     }
 }
