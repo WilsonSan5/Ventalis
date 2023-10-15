@@ -15,6 +15,7 @@ const intentUrl = originUrl + '/intentPayment'
 const successUrl = originUrl + '/confirmation'
 
 console.log('originUrl :' + originUrl)
+console.log(intentUrl)
 // console.log(id_planning)
 
 
@@ -42,25 +43,6 @@ document.getElementById("payment-form").addEventListener("submit", handleSubmit)
 
 var emailAddress = '';
 
-// Fetches a payment intent and captures the client secret
-// async function initialize() {
-//   const { clientSecret } = await fetch(intentUrl, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ items }),
-//   }).then((response) => {
-//     responseClone = response.clone(); // 2
-//     return response.json();
-//   }).then(function (data) {
-//     // Do something with data
-
-//   }, function (rejectionReason) { // 3
-//     console.log('Error parsing JSON from response:', rejectionReason, responseClone); // 4
-//     responseClone.text() // 5
-//       .then(function (bodyText) {
-//         console.log('Received the following instead of valid JSON:', bodyText); // 6
-//       });
-//   });;
 async function initialize() {
   const { clientSecret } = await fetch(intentUrl, {
     method: "POST",
@@ -72,12 +54,11 @@ async function initialize() {
   }).catch(function (error) {
     console.log('Error parsing JSON from response:', error);
   });
-
   try {
+    console.log(clientSecret);
     elements = stripe.elements({
       clientSecret, // Utilisez clientSecret ici pour initialiser les éléments Stripe
     });
-
     // Utilisez 'elements' pour configurer vos éléments Stripe comme les cartes, les boutons, etc.
     console.log(elements);
     const linkAuthenticationElement = elements.create("linkAuthentication");

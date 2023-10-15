@@ -4,73 +4,74 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Récapitulatif de la commande</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Voyage</th>
-				<th>Planning</th>
-				<th>Quantité</th>
-				<th>Prix unitaire</th>
-				<th>Prix total</th>
-
-			</tr>
-		</thead>
-		<tbody>
-			{% for achat in produitsInCart %}
+	<div class='container'>
+		<h1>Récapitulatif de la commande</h1>
+		<table class="table">
+			<thead>
 				<tr>
-					<td>{{ achat.produit }}</td>
-					<td>Du
-						{{ achat.planning.DateDepart | date("d/m/Y") }}
-						- au
-						{{achat.planning.DateFin | date("d/m/Y")}}</td>
-					<td>{{achat.quantite}}</td>
-					<td>{{ achat.prix }}
-						€</td>
-					<td>
-						<b>{{ achat.prix * achat.quantite }}
-							€
-						</b>
-					</td>
+					<th>Voyage</th>
+					<th>Planning</th>
+					<th>Quantité</th>
+					<th>Prix unitaire</th>
+					<th>Prix total</th>
+
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{% for achat in produitsInCart %}
+					<tr>
+						<td>{{ achat.produit }}</td>
+						<td>Du
+							{{ achat.planning.DateDepart | date("d/m/Y") }}
+							- au
+							{{achat.planning.DateFin | date("d/m/Y")}}</td>
+						<td>{{achat.quantite}}</td>
+						<td>{{ achat.prix }}
+							€</td>
+						<td>
+							<b>{{ achat.prix * achat.quantite }}
+								€
+							</b>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
 
-	<h2>
-		Prix total :
-		<b>
-			<span id='prix'>
-				{{totalPanier}}
+		<h2>
+			Prix total :
+			<b>
+				<span id='prix'>
+					{{totalPanier}}
+				</span>
+				€
+			</h2>
+		</b>
+		<p>
+			<span id='nomUser'>{{app.user.nom}}
 			</span>
-			€
-		</h2>
-	</b>
-	<p>
-		<span id='nomUser'>{{app.user.nom}}
-		</span>
-		<span id='prenomUser'>{{app.user.prenom}}</span>
-	</p>
+			<span id='prenomUser'>{{app.user.prenom}}</span>
+		</p>
 
-	<div
-		id="paiement">
-		<!-- Display a payment form -->
-		<form id="payment-form">
-			<div
-				id="link-authentication-element"><!--Stripe.js injects the Link Authentication Element-->
-			</div>
-			<div
-				id="payment-element"><!--Stripe.js injects the Payment Element-->
-			</div>
-			<button id="submit">
-				<div class="spinner hidden" id="spinner"></div>
-				<span id="button-text">Payer</span>
-			</button>
-			<div id="payment-message" class="hidden"></div>
-		</form>
+		<div
+			id="paiement">
+			<!-- Display a payment form -->
+			<form id="payment-form">
+				<div
+					id="link-authentication-element"><!--Stripe.js injects the Link Authentication Element-->
+				</div>
+				<div
+					id="payment-element"><!--Stripe.js injects the Payment Element-->
+				</div>
+				<button id="submit">
+					<div class="spinner hidden" id="spinner"></div>
+					<span id="button-text">Payer</span>
+				</button>
+				<div id="payment-message" class="hidden"></div>
+			</form>
+		</div>
 	</div>
-
 	<script type="text/javascript" src="https://js.stripe.com/v3/"></script>
 	<script src='/stripe/checkout.js'></script>
 {% endblock %}

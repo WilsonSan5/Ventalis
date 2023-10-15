@@ -32,7 +32,7 @@ class StripeController extends AbstractController
             $jsonStr = file_get_contents('php://input');
             $jsonObj = json_decode($jsonStr);
 
-            // dump($jsonObj);
+            dump($jsonObj);
 
             //Créer l'intention de paiment avec le prix et le device
             $paymentIntent = PaymentIntent::create([
@@ -52,8 +52,7 @@ class StripeController extends AbstractController
                 'clientSecret' => $output['clientSecret']
             ]);
 
-
-        } catch (Error $e) {
+        } catch (\Error $e) {
             http_response_code(500);
             echo json_decode(['error' => $e->getMessage()]);
         }

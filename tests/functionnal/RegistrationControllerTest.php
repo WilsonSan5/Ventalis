@@ -15,7 +15,7 @@ class RegistrationControllerTest extends WebTestCase
 
         // Donnée en entrée
         $form = $crawler->selectButton('Je crée un compte')->form([
-            'registration_form[email]' => 'randomUser@example.com',
+            'registration_form[email]' => 'randomUser@test.com',
             'registration_form[nom]' => 'Test',
             'registration_form[prenom]' => 'Test',
             'registration_form[plainPassword]' => 'UserMdp5!',
@@ -29,7 +29,7 @@ class RegistrationControllerTest extends WebTestCase
         // Supression du nouvel utilisateur
         $doctrine = $client->getContainer()->get('doctrine');
         $userRepository = $doctrine->getRepository(User::class);
-        $newUser = $userRepository->findBy(['email' => 'randomUser@example.com']);
+        $newUser = $userRepository->findBy(['email' => 'randomUser@test.com']);
         $userRepository->remove($newUser[0], true);
     }
     public function testWeakPassword()
@@ -37,16 +37,15 @@ class RegistrationControllerTest extends WebTestCase
         $client = static::createClient();
 
         // Load the registration page
-        $crawler = $client->request('GET', '/register'); // Replace with the URL of your registration page
+        $crawler = $client->request('GET', '/register');
 
         // Fill out the registration form with test user data
         $form = $crawler->selectButton('Je crée un compte')->form([
-            'registration_form[email]' => 'randomUser@example.com',
+            'registration_form[email]' => 'randomUser@test.com',
             'registration_form[nom]' => 'Test',
             'registration_form[prenom]' => 'Test',
             'registration_form[plainPassword]' => 'usermdp',
             'registration_form[agreeTerms]' => 1
-            // Add any other form fields required for registration
         ]);
 
         // Submit the form
@@ -61,14 +60,11 @@ class RegistrationControllerTest extends WebTestCase
         $doctrine = $client->getContainer()->get('doctrine');
         $userRepository = $doctrine->getRepository(User::class);
         $newUser = new User;
-        $newUser->setEmail('alreadyUsedEmail@test.com')->setPassword('randomPassword');
+        $newUser->setEmail('alreadyUsedEmail@test.com')->setPassword('UserMdp5!');
         $userRepository->save($newUser, true);
 
         // Load the registration page
-        $crawler = $client->request('GET', '/register'); // Replace with the URL of your registration page
-        // Fill out the registration form with test user data
-        // Load the registration page
-        $crawler = $client->request('GET', '/register'); // Replace with the URL of your registration page
+        $crawler = $client->request('GET', '/register');
         // Fill out the registration form with test user data
         $form = $crawler->selectButton('Je crée un compte')->form([
             'registration_form[email]' => 'user11@gmail.com',
@@ -77,7 +73,6 @@ class RegistrationControllerTest extends WebTestCase
             'registration_form[prenom]' => 'Test',
             'registration_form[plainPassword]' => 'Usermdp5!',
             'registration_form[agreeTerms]' => 1
-            // Add any other form fields required for registration
         ]);
         // Submit the form
         $client->submit($form);
